@@ -7,7 +7,7 @@ using Services.ServicesImp;
 namespace API_Boker
 {
     public class Program
-    {
+    {//==================328471867
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,7 @@ namespace API_Boker
             builder.Services.AddSwaggerGen();
             //
             builder.Services.AddScoped(typeof(IGroupService), typeof(GroupServices));
-            builder.Services.AddScoped(typeof(IUnitService), typeof(IUnitService));
+            builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
             builder.Services.AddScoped(typeof(Repository.Interfaces.IUnitDal ), typeof(Repository.Imp.UnitDAL));
              //==========mapper::
             var mapperConfig = new MapperConfiguration(mc =>
