@@ -1,4 +1,5 @@
 ﻿using Repository.DbModels;
+using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,15 @@ namespace Repository.Imp
 {
     public class GroupDAL : Interfaces.CRUD<DbModels.Group>
     {
-       public bool AddNew(Group obj)
+        private readonly IDiaryContext context;
+
+        public GroupDAL(IDiaryContext ctx)
+        {
+            context = ctx;
+            
+        }
+        //todo: dbcontext by DI
+        public bool AddNew(Group obj)
         {
             using DiaryContext ctx = new();
 
@@ -56,10 +65,9 @@ namespace Repository.Imp
 
         public IEnumerable<Group> Get()
         {
-            using DiaryContext ctx = new();
             try
             {
-                return ctx.Groups ;
+                return context.Groups.ToList() ;
             }
             catch
             {
@@ -71,10 +79,9 @@ namespace Repository.Imp
         {
             Func<Group,bool> func = a => a.Id > 100;
 
-            using DiaryContext ctx = new();
             try
             {
-                return ctx.Groups.Where(cond);
+                return context .Groups.Where(cond);
             }
             catch
             {

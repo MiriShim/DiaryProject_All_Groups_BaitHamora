@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class UnitDAL:IUnitDal
+    public class UnitDAL: CRUD<Unit >  //IUnitDal
     {
         private readonly IDiaryContext  _dbContext;
         public UnitDAL(IDiaryContext  dbContext)
@@ -53,6 +53,36 @@ namespace Repository.Imp
 
 
             ctx.SaveChanges();
+        }
+
+        public bool AddNew(Unit obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete<T>(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Unit entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Unit> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Unit> Get(Func<Group, bool> cond)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Unit Get(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
