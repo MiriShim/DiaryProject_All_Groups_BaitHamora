@@ -125,5 +125,5 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-     }
+    }
 

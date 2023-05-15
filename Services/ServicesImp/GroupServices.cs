@@ -12,13 +12,14 @@ using System.Threading.Tasks;
 namespace Services.ServicesImp
 {
     public  class GroupServices:IGroupService
-    {
-        private readonly CRUD<Group> _repository;
+    {  
+       // private readonly ICRUD<Group> _repository;
+        private readonly IGroupDAL repository;
         private readonly IMapper _mapper;
 
-        public GroupServices(CRUD<Group> repository,IMapper mapper)
+        public GroupServices(IGroupDAL _repository,IMapper mapper)
         {
-            _repository = repository;
+             repository = _repository;
             _mapper = mapper;
         }
 
@@ -26,7 +27,7 @@ namespace Services.ServicesImp
         {
             // GroupDAL dal = new GroupDAL();
 
-            var list = _repository.Get().ToList();
+            var list =  repository.Get().ToList();
           //  var somedata = list.Select(g =>   g.Name );
            // var somedata2 = list.Select(g => new { g.Name, sum = g.Students.Count(), schoolname = g.School.Name ??"" } );
             return  list.Select(item=>_mapper.Map<DTO.GroupDTO>(item)); 

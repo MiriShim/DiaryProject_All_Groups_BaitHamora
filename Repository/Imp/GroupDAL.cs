@@ -1,4 +1,6 @@
-﻿using Repository.DbModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Repository.DbModels;
+using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class GroupDAL : Interfaces.CRUD<DbModels.Group>
+    public class GroupDAL :  IGroupDAL
     {
        public bool AddNew(Group obj)
         {
@@ -46,13 +48,30 @@ namespace Repository.Imp
             using DiaryContext ctx = new();
             try
             {
-                return ctx.Groups.Find(id);
+                 return ctx.Groups.Find(id);
+                 
             }
             catch
             {
                 return null;
             }
         }
+
+        public Group?  GetGroupDetailed(int id)
+        {
+            using DiaryContext ctx = new();
+            try
+            {
+                // return ctx.Groups.Include("School").Single(g=>g.Id == id);
+                  return ctx.Groups.Include(a=>a.School  ).SingleOrDefault(g=>g.Id == id);
+                // var a= ctx.Groups.Where (i=>i.Id==id).Select(g => new() { g.Id, g.Name, g.School.Name });  // .Single(g=>g.Id == id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         public IEnumerable<Group> Get()
         {
@@ -83,6 +102,11 @@ namespace Repository.Imp
         }
 
         public int Update(Group entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Group> GetGroupsWithSchool()
         {
             throw new NotImplementedException();
         }

@@ -7,7 +7,7 @@ using Services.ServicesImp;
 namespace API_Boker
 {
     public class Program
-    {//==================328471867
+    { 
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
