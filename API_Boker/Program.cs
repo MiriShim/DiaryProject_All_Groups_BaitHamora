@@ -1,8 +1,9 @@
 
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Repository.DbModels;
+using Repository.Imp;
+using Repository.Interfaces;
 using Services.ServiceAPI;
 using Services.ServicesImp;
 
@@ -21,6 +22,9 @@ namespace API_Boker
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             //
+            builder.Services.AddScoped(typeof(IStudentService),typeof(StudentService)); 
+            builder.Services.AddScoped(typeof(IStudentRepository ),typeof(StudentRepository )); 
+
             builder.Services.AddScoped(typeof(IGroupService), typeof(GroupServices));
             builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Group> ), typeof(Repository.Imp.GroupDAL ));
             builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
@@ -32,21 +36,16 @@ namespace API_Boker
 
             //       => optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
             //        => optionsBuilder.UseSqlServer("Data Source=FSQLN\\FSQLN;Initial Catalog=Diary_YomAroch_5783;Integrated Security=True;trustservercertificate=true");
-
-
- 
-          //  builder.Services.AddScoped(typeof(Repository.Interfaces.IUnitDal ), typeof(Repository.Imp.UnitDAL));
-             //==========mapper::
+            //  builder.Services.AddScoped(typeof(Repository.Interfaces.IUnitDal ), typeof(Repository.Imp.UnitDAL));
+            //==========mapper::
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new API_Boker.MapperConfig ());
+                mc.AddProfile(new  MapperConfig ());
             });
 
-            IMapper mapper = mapperConfig.CreateMapper();
-           
+            IMapper mapper = mapperConfig.CreateMapper();         
+
             builder.Services.AddSingleton(mapper);
-
-
              
             var app = builder.Build();
 

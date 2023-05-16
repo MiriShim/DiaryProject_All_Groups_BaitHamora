@@ -10,12 +10,17 @@ namespace API_Boker
             {
             // Add as many of these lines as you need to map your objects
             CreateMap<Group, GroupDTO>()
-                //מיפוי לשם בית הספר מתוך טבלה קשורה לא חובה
+                 //מיפוי לשם בית הספר מתוך טבלה קשורה לא חובה
                 .ForMember(m => m.SchoolName, opt => opt.MapFrom(src => src.School.Name))
+                .ReverseMap();
 
-            .ReverseMap();
             CreateMap<Unit, UnitDTO>().ReverseMap();
-        
+
+            CreateMap<Student , StudentDTO >()
+                //מיפוי לשם בית הספר מתוך טבלה קשורה לא חובה
+                .ForMember(m => m.Email, opt => opt.MapFrom(src => src.Email))
+            .ReverseMap();
+      
         }
     }
 }

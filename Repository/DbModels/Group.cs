@@ -14,6 +14,7 @@ public partial class Group
 
     public int? SchoolId { get; set; }
 
+    //lazy loading
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public virtual School? School { get; set; }
