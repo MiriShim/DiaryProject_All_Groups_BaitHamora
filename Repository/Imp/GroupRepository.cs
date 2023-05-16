@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class GroupDAL : Interfaces.CRUD<DbModels.Group>
+    public class GroupRepository : IGroupRepository // Interfaces.ICRUD<DbModels.Group>
     {
         private readonly IDiaryContext context;
 
-        public GroupDAL(IDiaryContext ctx)
+        public GroupRepository(IDiaryContext ctx)
         {
             context = ctx;
             
@@ -21,12 +21,11 @@ namespace Repository.Imp
         //todo: dbcontext by DI
         public bool AddNew(Group obj)
         {
-            using DiaryContext ctx = new();
-
+             
             try
             {
-                ctx.Groups.Add(obj);
-                ctx.SaveChanges();
+                context.Groups.Add(obj);
+                context.SaveChanges();
                 return true;
             }
             catch
@@ -37,12 +36,12 @@ namespace Repository.Imp
 
         public bool Delete<T>(int id)
         {
-            using DiaryContext ctx = new();
+            
             try
             {
-                var g = ctx.Groups.Find(id);
-                ctx.Groups.Remove(g);
-                ctx.SaveChanges();
+                var g = context.Groups.Find(id);
+                context.Groups.Remove(g);
+                context.SaveChanges();
                 return true;
             }
             catch
@@ -52,10 +51,23 @@ namespace Repository.Imp
         }
         public  Group  Get(int id)
         {
-            using DiaryContext ctx = new();
+            
             try
             {
-                return ctx.Groups.Find(id);
+                return context.Groups.Find(id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public object GetDeatild(int id)
+        {
+             
+            try
+            {
+                return context.Groups.Select(g=>new {g.Id,g.Name  ,SchoolName= g.School.Name   }) .Where (i=>i.Id== id);
             }
             catch
             {

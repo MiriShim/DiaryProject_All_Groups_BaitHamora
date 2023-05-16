@@ -37,7 +37,7 @@ namespace API_Boker.Controllers
         [HttpPost]
         public void Post([FromBody] Student student)
         {
-            studentService.AddNew(student);
+           // studentService.AddNew(student);
         }
 
         // PUT api/<StudentController>/5

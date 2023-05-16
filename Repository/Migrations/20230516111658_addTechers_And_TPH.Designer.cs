@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository.DbModels;
 
@@ -11,9 +12,11 @@ using Repository.DbModels;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DiaryContext))]
-    partial class DiaryContextModelSnapshot : ModelSnapshot
+    [Migration("20230516111658_addTechers_And_TPH")]
+    partial class addTechers_And_TPH
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,8 +59,7 @@ namespace Repository.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime")
-                        .HasColumnName("DateOfLesson");
+                        .HasColumnType("datetime");
 
                     b.Property<int?>("GroupId")
                         .HasColumnType("int")
@@ -68,7 +70,7 @@ namespace Repository.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Group_Id");
 
-                    b.ToTable("LessonsTbl");
+                    b.ToTable("Lessons");
                 });
 
             modelBuilder.Entity("Repository.DbModels.School", b =>
@@ -143,8 +145,7 @@ namespace Repository.Migrations
                         .HasColumnName("PeriodStart");
 
                     b.Property<string>("UnitName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .HasName("PK_dbo.Units");
@@ -179,8 +180,7 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");

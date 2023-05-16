@@ -15,8 +15,8 @@ namespace Services.ServicesImp
     public   class UnitServices:IUnitService
     {
        private readonly IMapper mapper;
-        private readonly CRUD<Unit > unitDal;
-        public UnitServices(IMapper m,CRUD<Unit  > unitDal)
+        private readonly ICRUD<Unit > unitDal;
+        public UnitServices(IMapper m,ICRUD<Unit  > unitDal)
         {
             this.unitDal = unitDal;
             mapper = m;

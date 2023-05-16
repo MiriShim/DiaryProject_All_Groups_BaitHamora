@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Repository.Interfaces
 {
     //crud: create read update delete
-    public  interface CRUD<T>
+    public  interface ICRUD<T>
     {
         bool AddNew (T obj);
         bool Delete <T>(int id );
