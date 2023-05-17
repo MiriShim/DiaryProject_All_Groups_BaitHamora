@@ -24,12 +24,12 @@ namespace API_Boker
             //
             builder.Services.AddScoped(typeof(IStudentService),typeof(StudentService)); 
             builder.Services.AddScoped(typeof(IStudentRepository ),typeof(StudentRepository )); 
+
             builder.Services.AddScoped(typeof(IGroupService ),typeof(GroupServices )); 
             builder.Services.AddScoped(typeof(IGroupRepository ),typeof( GroupRepository   )); 
 
-            builder.Services.AddScoped(typeof(IGroupService), typeof(GroupServices));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.ICRUD<Group> ), typeof(Repository.Imp.GroupRepository ));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.ICRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
+            builder.Services.AddScoped(typeof(ICRUD<Group> ), typeof(Repository.Imp.GroupRepository ));
+            builder.Services.AddScoped(typeof(ICRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
             builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
             builder.Services.AddScoped(typeof(Repository.Interfaces.IDiaryContext), typeof(DiaryContext));
              
@@ -50,7 +50,7 @@ namespace API_Boker
             //==========mapper::
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new  MapperConfig ());
+                mc.AddProfile(new MapperConfig ());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();         

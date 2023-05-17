@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Repository.DbModels;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace Repository.Interfaces
          DbSet<Unit> Units { get; }
          int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+   
+        EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
+         
+
 
     }
 }

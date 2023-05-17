@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Repository.Imp
 {
   
-    public class GroupRepository :  IGroupDAL
+    public class GroupRepository :  IGroupRepository
     {
         private readonly IDiaryContext context;
 
@@ -79,12 +79,11 @@ namespace Repository.Imp
 
         public Group?  GetGroupDetailed(int id)
         {
-            using DiaryContext ctx = new();
             try
             {
-                // return ctx.Groups.Include("School").Single(g=>g.Id == id);
-                  return ctx.Groups.Include(a=>a.School  ).SingleOrDefault(g=>g.Id == id);
-                // var a= ctx.Groups.Where (i=>i.Id==id).Select(g => new() { g.Id, g.Name, g.School.Name });  // .Single(g=>g.Id == id);
+                 // return context .Groups.Include("School").Single(g=>g.Id == id);
+                  return context .Groups.Include(a=>a.School).SingleOrDefault(g=>g.Id == id);
+                //  var a= context .Groups.Where (i=>i.Id==id).Select(g => new() { g.Id, g.Name, g.School.Name });  // .Single(g=>g.Id == id);
             }
             catch
             {

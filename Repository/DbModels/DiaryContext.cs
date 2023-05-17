@@ -34,16 +34,15 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    { 
-    
+    {
+        //optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
     }
-
-
+ 
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
 #warning  You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
 #warning  For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        //       => optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
-       //        => optionsBuilder.UseSqlServer("Data Source=FSQLN\\FSQLN;Initial Catalog=Diary_YomAroch_5783;Integrated Security=True;trustservercertificate=true");
+    //       => optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
+    //       => optionsBuilder.UseSqlServer("Data Source=FSQLN\\FSQLN;Initial Catalog=Diary_YomAroch_5783;Integrated Security=True;trustservercertificate=true");
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder )

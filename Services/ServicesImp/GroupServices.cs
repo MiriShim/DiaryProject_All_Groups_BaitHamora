@@ -14,10 +14,10 @@ namespace Services.ServicesImp
 {
     public  class GroupServices:IGroupService
     {
-        private readonly IGroupRepository  _repository;
+        private readonly IGroupRepository   repository;
         private readonly IMapper _mapper;
 
-        public GroupServices (IGroupRepository repository,IMapper mapper)
+        public GroupServices (IGroupRepository _repository,IMapper mapper)
         {
              repository = _repository;
             _mapper = mapper;
@@ -25,14 +25,14 @@ namespace Services.ServicesImp
 
         public void AddNew(GroupDTO value)
         {
-            _repository.AddNew(_mapper.Map<Group>(value));
+             repository.AddNew(_mapper.Map<Group>(value));
         }
 
         public IEnumerable <DTO. GroupDTO> GetAll ( )
         {
             // GroupDAL dal = new GroupDAL();
 
-            var list =  repository.Get().ToList();
+            var list =   repository.Get().ToList();
           //  var somedata = list.Select(g =>   g.Name );
            // var somedata2 = list.Select(g => new { g.Name, sum = g.Students.Count(), schoolname = g.School.Name ??"" } );
             return  list.Select(item=>_mapper.Map<DTO.GroupDTO>(item)); 
@@ -40,7 +40,7 @@ namespace Services.ServicesImp
 
         public object GetWithSchoolName (int gId ) 
         {
-            return _repository.GetDeatild(1);
+            return  repository.GetDeatild(1);
         }
     }
 }
