@@ -11,11 +11,13 @@ public partial class Group
     public int Id { get; set; }
 
     public string? Name { get; set; }
+    public int AvarageMark { get; set; }
 
     public int? SchoolId { get; set; }
 
     
     
+    //lazy loading
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public virtual School? School { get; set; }
