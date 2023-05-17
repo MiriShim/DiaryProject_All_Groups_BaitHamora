@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Interfaces\IUnitDal.cs" />
+  </ItemGroup>
+
   
   <ItemGroup>
     <PackageReference Include="microsoft.entityframeworkcore" Version="7.0.5" />

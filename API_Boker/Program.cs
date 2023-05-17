@@ -1,6 +1,8 @@
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Repository.DbModels;
 using Services.ServiceAPI;
 using Services.ServicesImp;
 
@@ -20,8 +22,20 @@ namespace API_Boker
             builder.Services.AddSwaggerGen();
             //
             builder.Services.AddScoped(typeof(IGroupService), typeof(GroupServices));
+            builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Group> ), typeof(Repository.Imp.GroupDAL ));
+            builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
             builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.IUnitDal ), typeof(Repository.Imp.UnitDAL));
+            builder.Services.AddScoped(typeof(Repository.Interfaces.IDiaryContext), typeof(DiaryContext));
+
+            builder.Services.AddDbContext<DiaryContext>(
+                 optionB => optionB.UseSqlServer("name=ConnectionStrings:HomeConnection"));
+
+            //       => optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
+            //        => optionsBuilder.UseSqlServer("Data Source=FSQLN\\FSQLN;Initial Catalog=Diary_YomAroch_5783;Integrated Security=True;trustservercertificate=true");
+
+
+ 
+          //  builder.Services.AddScoped(typeof(Repository.Interfaces.IUnitDal ), typeof(Repository.Imp.UnitDAL));
              //==========mapper::
             var mapperConfig = new MapperConfiguration(mc =>
             {

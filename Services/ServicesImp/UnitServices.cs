@@ -15,22 +15,20 @@ namespace Services.ServicesImp
     public   class UnitServices:IUnitService
     {
        private readonly IMapper mapper;
-        private readonly IUnitDal unitDal;
-        public UnitServices(IMapper m,IUnitDal unitDal)
+        private readonly CRUD<Unit > unitDal;
+        public UnitServices(IMapper m,CRUD<Unit  > unitDal)
         {
             this.unitDal = unitDal;
             mapper = m;
         }
         public List<DTO. UnitDTO>  GetAll()
         {
-             return unitDal.GetAll().Select(m=>mapper.Map<DTO.UnitDTO>(m)).ToList();
-
+             return unitDal.Get ().Select(m=>mapper.Map<DTO.UnitDTO>(m)).ToList();
         }
 
         public void Save(UnitDTO unit)
         {
-
-              unitDal .Save(mapper.Map<Unit>( unit));
+              unitDal .AddNew (mapper.Map<Unit>( unit));
         }
     }
 }

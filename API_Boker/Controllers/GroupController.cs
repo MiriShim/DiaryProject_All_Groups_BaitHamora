@@ -9,15 +9,19 @@ namespace API_Boker.Controllers
     [ApiController]
     public class GroupController : ControllerBase
     {
-       private readonly  IGroupService  _groupServive;
+       private readonly  IGroupService  _groupService;
 
-        //private readonly Services.ServiceAPI.IGroupService 
+        public GroupController(IGroupService service)
+        {
+            _groupService = service;
+        }
+
         // GET: api/<GroupController>
         [HttpGet]
         public IEnumerable<DTO.GroupDTO> Get()
         {
             
-            return _groupServive.GetAll();   
+            return _groupService.GetAll();   
         }
 
         // GET api/<GroupController>/5

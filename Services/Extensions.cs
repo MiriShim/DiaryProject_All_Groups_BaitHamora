@@ -11,7 +11,7 @@ namespace Services
     {
         public static void AddBlServices( this  IServiceCollection services)
         {
-            services.AddScoped<IUnitDal, UnitDAL>();
+            services.AddScoped<CRUD<Unit >, UnitDAL>();
             services.AddScoped<IDiaryContext, DiaryContext>();
 
             // services.AddDbContext<Repository.DbModels.DiaryContext>(options =>
