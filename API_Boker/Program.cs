@@ -26,7 +26,7 @@ namespace API_Boker
             builder.Services.AddScoped(typeof(IStudentRepository ),typeof(StudentRepository )); 
 
             builder.Services.AddScoped(typeof(IGroupService), typeof(GroupServices));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Group> ), typeof(Repository.Imp.GroupDAL ));
+            builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Group> ), typeof(Repository.Imp.GroupRepository ));
             builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
             builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
             builder.Services.AddScoped(typeof(Repository.Interfaces.IDiaryContext), typeof(DiaryContext));

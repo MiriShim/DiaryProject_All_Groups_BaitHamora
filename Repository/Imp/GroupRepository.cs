@@ -1,4 +1,5 @@
-﻿using Repository.DbModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Repository.DbModels;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class GroupDAL : Interfaces.CRUD<DbModels.Group>
+    public class GroupRepository : Interfaces.CRUD<DbModels.Group>
     {
         private readonly IDiaryContext context;
 
-        public GroupDAL(IDiaryContext ctx)
+        public GroupRepository(IDiaryContext ctx)
         {
             context = ctx;
             
@@ -50,18 +51,22 @@ namespace Repository.Imp
                 return false;
             }
         }
-        public  Group  Get(int id)
+        public  Group?  Get(int id)
         {
-            using DiaryContext ctx = new();
+            //using DiaryContext ctx = new();
             try
             {
-                return ctx.Groups.Find(id);
+               // return context.Groups.Find(id);
+                //שליפת הקבוצה ביחד עם אוביקט ביס
+                //return context.Groups.Include("School").FirstOrDefault(i=>i.Id== id);
+                return context.Groups.Include(se=>se.School ).FirstOrDefault(i=>i.Id== id);
             }
             catch
             {
                 return null;
             }
         }
+
 
         public IEnumerable<Group> Get()
         {
