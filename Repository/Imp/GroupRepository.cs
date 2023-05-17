@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class GroupRepository : IGroupRepository // Interfaces.ICRUD<DbModels.Group>
-    public class GroupDAL :  IGroupDAL
+  
+    public class GroupRepository :  IGroupDAL
     {
         private readonly IDiaryContext context;
 
@@ -53,7 +53,6 @@ namespace Repository.Imp
         }
         public  Group  Get(int id)
         {
-            
             try
             {
                 return context.Groups.Find(id);
@@ -69,7 +68,7 @@ namespace Repository.Imp
              
             try
             {
-                 return ctx.Groups.Find(id);
+                 return context.Groups.Find(id);
                  
             }
             catch

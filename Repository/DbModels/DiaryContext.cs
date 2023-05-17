@@ -24,6 +24,7 @@ public partial class DiaryContext : DbContext , IDiaryContext
     public virtual DbSet<School> Schools { get; set; }
 
     public virtual DbSet<Student> Students { get; set; }
+    public virtual DbSet<Teacher> Teachers { get; set; }
     
     public virtual DbSet<User> Users { get; set; }
 
@@ -49,6 +50,9 @@ public partial class DiaryContext : DbContext , IDiaryContext
     {
         modelBuilder.Entity<Group>(entity =>
         {
+            //fluent api
+            entity.ToTable("Classes");
+
             entity.HasKey(e => e.Id).HasName("PK_dbo.Groups");
 
             entity.HasIndex(e => e.SchoolId, "IX_SchoolId");
@@ -97,6 +101,8 @@ public partial class DiaryContext : DbContext , IDiaryContext
         modelBuilder.Entity<Unit>(entity =>
         {
             entity.ToTable(nameof(Units), e => e.IsTemporal());
+
+            entity.Property(e => e.UnitName).HasMaxLength(50);
 
             entity.HasKey(e => e.Id).HasName("PK_dbo.Units");
 

@@ -12,8 +12,8 @@ using Repository.DbModels;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DiaryContext))]
-    [Migration("20230430102559_create")]
-    partial class create
+    [Migration("20230516101112_CreateNewDB")]
+    partial class CreateNewDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,13 +131,34 @@ namespace Repository.Migrations
                     b.Property<int?>("ParentUnitId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
                     b.Property<string>("UnitName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .HasName("PK_dbo.Units");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", (string)null);
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("UnitsHistory");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Repository.DbModels.User", b =>

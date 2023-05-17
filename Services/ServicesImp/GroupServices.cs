@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DTO;
 using Repository.DbModels;
 using Repository.Imp;
 using Repository.Interfaces;
@@ -12,15 +13,19 @@ using System.Threading.Tasks;
 namespace Services.ServicesImp
 {
     public  class GroupServices:IGroupService
-    {  
-       // private readonly ICRUD<Group> _repository;
-        private readonly IGroupDAL repository;
+    {
+        private readonly IGroupRepository  _repository;
         private readonly IMapper _mapper;
 
-        public GroupServices(IGroupDAL _repository,IMapper mapper)
+        public GroupServices (IGroupRepository repository,IMapper mapper)
         {
              repository = _repository;
             _mapper = mapper;
+        }
+
+        public void AddNew(GroupDTO value)
+        {
+            _repository.AddNew(_mapper.Map<Group>(value));
         }
 
         public IEnumerable <DTO. GroupDTO> GetAll ( )
@@ -33,5 +38,9 @@ namespace Services.ServicesImp
             return  list.Select(item=>_mapper.Map<DTO.GroupDTO>(item)); 
         }
 
+        public object GetWithSchoolName (int gId ) 
+        {
+            return _repository.GetDeatild(1);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DTO;
+using Microsoft.AspNetCore.Mvc;
+using Repository.DbModels;
 using Services.ServiceAPI;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,17 +26,27 @@ namespace API_Boker.Controllers
             return _groupService.GetAll();   
         }
 
-        // GET api/<GroupController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+         
+        public object GetWithSchool(int id)
         {
-            return "value";
+
+            return _groupService.GetWithSchoolName(id);
+
         }
+
+        //// GET api/<GroupController>/5
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<GroupController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] GroupDTO value)
         {
+            _groupService.AddNew(value );
         }
 
         // PUT api/<GroupController>/5
