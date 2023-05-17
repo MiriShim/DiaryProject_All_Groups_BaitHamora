@@ -9,26 +9,31 @@ using System.Threading.Tasks;
 
 namespace Repository.Interfaces
 {
-    public  interface IDiaryContext
+    public interface IDiaryContext
     {
-          DbSet<Group> Groups { get;  }
+        DbSet<Group> Groups { get;  }
 
-          DbSet<Lesson> Lessons { get;  }
+        DbSet<Lesson> Lessons { get; }
 
-          DbSet<School> Schools { get;  }
+        DbSet<School> Schools { get; }
+
+        DbSet<Student> Students { get; }
+
+        DbSet<User> Users { get; }
+
+        DbSet<StudentExistance> StudentExistances { get; }
+
+        DbSet<Unit> Units { get; }
+
+        int SaveChanges();
          
-          DbSet<Student> Students { get;  }
-
-         DbSet<User> Users { get;  }
-        
-         DbSet<StudentExistance> StudentExistances { get; }
-
-         DbSet<Unit> Units { get; }
-         int SaveChanges();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-   
+      
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
+
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
          
+
 
 
     }

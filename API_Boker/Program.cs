@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Repository.DbModels;
@@ -20,7 +19,10 @@ namespace API_Boker
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen();      
+
+            builder.Services.AddScoped(typeof(ISchoolService), typeof(SchoolService));
+            builder.Services.AddScoped(typeof(ISchoolRepository), typeof(SchoolRepository));
             //
             builder.Services.AddScoped(typeof(IStudentService),typeof(StudentService)); 
             builder.Services.AddScoped(typeof(IStudentRepository ),typeof(StudentRepository )); 
@@ -31,7 +33,9 @@ namespace API_Boker
             builder.Services.AddScoped(typeof(ICRUD<Group> ), typeof(Repository.Imp.GroupRepository ));
             builder.Services.AddScoped(typeof(ICRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
             builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.IDiaryContext), typeof(DiaryContext));
+           
+            
+            builder.Services.AddScoped(typeof(IDiaryContext), typeof(DiaryContext));
              
             string connStrConfigName = Environment.UserName switch 
             { 
