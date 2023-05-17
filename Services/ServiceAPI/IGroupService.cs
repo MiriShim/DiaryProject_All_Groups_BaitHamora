@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace Services.ServiceAPI
 {
     public  interface IGroupService
     {
+        void AddNew(GroupDTO value);
         IEnumerable<DTO.GroupDTO> GetAll();
+        object GetWithSchoolName(int gId);
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class UnitDAL: CRUD<Unit >  //IUnitDal
+    public class UnitDAL: ICRUD<Unit >  //IUnitDal
     {
         private readonly IDiaryContext  _dbContext;
         public UnitDAL(IDiaryContext  dbContext)

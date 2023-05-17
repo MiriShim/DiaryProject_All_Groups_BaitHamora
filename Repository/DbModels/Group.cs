@@ -9,11 +9,11 @@ public partial class Group
 {
     [Key]
     public int Id { get; set; }
-
     public string? Name { get; set; }
+    public int AvarageMark { get; set; }
 
     public int? SchoolId { get; set; }
-
+    
     //lazy loading
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 

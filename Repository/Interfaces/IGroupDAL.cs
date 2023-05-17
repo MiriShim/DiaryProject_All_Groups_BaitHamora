@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Repository.Interfaces
 {
-    public  interface IStudentRepository: Interfaces.ICRUD<Student >
+    public  interface IGroupDAL :ICRUD<Group >
     {
-        IEnumerable<Student> GetStudentsIncludeGroup();    
+        IEnumerable<Group> GetGroupsWithSchool();
     }
 }

@@ -11,13 +11,17 @@ namespace Repository.Imp
     public class StudentRepository : IStudentRepository
     {
         //todo: move the usage of context to use by DI
-        
+        private readonly IDiaryContext ctx;
+        public StudentRepository(IDiaryContext diaryContext)
+        {
+            ctx = diaryContext; 
+        }
         public bool AddNew(Student obj)
         {
             try
             {
-                using DiaryContext ctx = new();
-                ctx.Add(obj);
+                // using DiaryContext ctx = new();
+                ctx .Add(obj);
                 ctx.SaveChanges();
                 return true;
             }

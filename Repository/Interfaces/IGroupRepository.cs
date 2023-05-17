@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Repository.Interfaces
 {
-    public  interface IStudentRepository: Interfaces.ICRUD<Student >
+    public  interface  IGroupRepository : ICRUD <Group>
     {
-        IEnumerable<Student> GetStudentsIncludeGroup();    
+          object GetDeatild(int id);
     }
 }

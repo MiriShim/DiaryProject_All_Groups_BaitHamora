@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class GroupRepository : Interfaces.CRUD<DbModels.Group>
+  
+    public class GroupRepository :  IGroupRepository
     {
         private readonly IDiaryContext context;
 
@@ -22,12 +23,11 @@ namespace Repository.Imp
         //todo: dbcontext by DI
         public bool AddNew(Group obj)
         {
-            using DiaryContext ctx = new();
-
+             
             try
             {
-                ctx.Groups.Add(obj);
-                ctx.SaveChanges();
+                context.Groups.Add(obj);
+                context.SaveChanges();
                 return true;
             }
             catch
@@ -38,12 +38,12 @@ namespace Repository.Imp
 
         public bool Delete<T>(int id)
         {
-            using DiaryContext ctx = new();
+            
             try
             {
-                var g = ctx.Groups.Find(id);
-                ctx.Groups.Remove(g);
-                ctx.SaveChanges();
+                var g = context.Groups.Find(id);
+                context.Groups.Remove(g);
+                context.SaveChanges();
                 return true;
             }
             catch
@@ -53,13 +53,10 @@ namespace Repository.Imp
         }
         public  Group?  Get(int id)
         {
-            //using DiaryContext ctx = new();
+            using DiaryContext ctx = new();
             try
             {
-               // return context.Groups.Find(id);
-                //שליפת הקבוצה ביחד עם אוביקט ביס
-                //return context.Groups.Include("School").FirstOrDefault(i=>i.Id== id);
-                return context.Groups.Include(se=>se.School ).FirstOrDefault(i=>i.Id== id);
+                return ctx.Groups.Find(id);
             }
             catch
             {
@@ -95,6 +92,11 @@ namespace Repository.Imp
         }
 
         public int Update(Group entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Group> GetGroupsWithSchool()
         {
             throw new NotImplementedException();
         }

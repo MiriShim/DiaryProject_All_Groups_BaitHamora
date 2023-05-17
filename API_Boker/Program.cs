@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Repository.DbModels;
@@ -10,7 +9,7 @@ using Services.ServicesImp;
 namespace API_Boker
 {
     public class Program
-    {//==================328471867
+    { 
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -20,19 +19,34 @@ namespace API_Boker
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen();      
+
+            builder.Services.AddScoped(typeof(ISchoolService), typeof(SchoolService));
+            builder.Services.AddScoped(typeof(ISchoolRepository), typeof(SchoolRepository));
             //
             builder.Services.AddScoped(typeof(IStudentService),typeof(StudentService)); 
             builder.Services.AddScoped(typeof(IStudentRepository ),typeof(StudentRepository )); 
 
-            builder.Services.AddScoped(typeof(IGroupService), typeof(GroupServices));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Group> ), typeof(Repository.Imp.GroupRepository ));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.CRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
+            builder.Services.AddScoped(typeof(IGroupService ),typeof(GroupServices )); 
+            builder.Services.AddScoped(typeof(IGroupRepository ),typeof( GroupRepository   )); 
+
+            builder.Services.AddScoped(typeof(ICRUD<Group> ), typeof(Repository.Imp.GroupRepository ));
+            builder.Services.AddScoped(typeof(ICRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
             builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
-            builder.Services.AddScoped(typeof(Repository.Interfaces.IDiaryContext), typeof(DiaryContext));
+           
+            
+            builder.Services.AddScoped(typeof(IDiaryContext), typeof(DiaryContext));
+             
+            string connStrConfigName = Environment.UserName switch 
+            { 
+                "mora2" or "talmid2" => "SharanskiConnection",
+                "st45" => "SeminarOfakimConnection",
+                "Miriam"  => "HomeConnection", 
+                _  => "HomeConnection" 
+            };
 
             builder.Services.AddDbContext<DiaryContext>(
-                 optionB => optionB.UseSqlServer("name=ConnectionStrings:HomeConnection"));
+                 optionB => optionB.UseSqlServer($"name=ConnectionStrings:{connStrConfigName}"));
 
             //       => optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
             //        => optionsBuilder.UseSqlServer("Data Source=FSQLN\\FSQLN;Initial Catalog=Diary_YomAroch_5783;Integrated Security=True;trustservercertificate=true");
@@ -40,7 +54,7 @@ namespace API_Boker
             //==========mapper::
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new  MapperConfig ());
+                mc.AddProfile(new MapperConfig ());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();         

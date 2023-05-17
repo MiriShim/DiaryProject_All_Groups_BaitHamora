@@ -5,13 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.DbModels;
-
+//data annotations
+[Table ("LessonsTbl")]
 public partial class Lesson
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity )]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity   )]
     public int Id { get; set; }
-
+    [Column ("DateOfLesson")]
     public DateTime Date { get; set; }
 
     public int? GroupId { get; set; }

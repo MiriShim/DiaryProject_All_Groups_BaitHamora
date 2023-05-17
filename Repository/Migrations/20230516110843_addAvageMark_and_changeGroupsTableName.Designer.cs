@@ -12,8 +12,8 @@ using Repository.DbModels;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DiaryContext))]
-    [Migration("20230430102746_configureTemporalTableToUnits")]
-    partial class configureTemporalTableToUnits
+    [Migration("20230516110843_addAvageMark_and_changeGroupsTableName")]
+    partial class addAvageMark_and_changeGroupsTableName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AvarageMark")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -44,7 +47,7 @@ namespace Repository.Migrations
 
                     b.HasIndex(new[] { "SchoolId" }, "IX_SchoolId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("Repository.DbModels.Lesson", b =>
