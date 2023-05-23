@@ -8,7 +8,8 @@ using Microsoft.IdentityModel.Abstractions;
 using Repository.Interfaces;
 using Repository.Imp;
 using System.Globalization;
-using Middleware.Example;
+using WebAPI.Middleware;
+using Middleware;
 
 namespace WebAPI;
 
@@ -38,9 +39,7 @@ public class Program
         
         builder.Services.AddBlServices();
 
-
-
-        var app = builder.Build();
+        WebApplication  app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -49,11 +48,17 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        app.UseHttpsRedirection()
+            .UseAuthentication()
+            .UseRequestCulture()
+            .UseShabatMiddleware()
+            .UseDefaultFiles();
 
+        //אימות משתמשים
         app.UseAuthorization();
-        
+        //מיפוי של 
         app.MapControllers();
+
         //דוגמא למידלוור
         app.Use(async (context, next) =>
         {
@@ -70,6 +75,7 @@ public class Program
             var cultureQuery = context.Request.Query["culture"];
             if (!string.IsNullOrWhiteSpace(cultureQuery))
             {
+                var s = (CultureInfo.CurrentCulture);
                 var culture = new CultureInfo(cultureQuery);
 
                 CultureInfo.CurrentCulture = culture;
@@ -79,11 +85,27 @@ public class Program
             // Call the next delegate/middleware in the pipeline.
             await next(context);
         });
+
+        app.Use(async (context, next) =>
+        {
+            // Do work that can write to the Response.
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday  )
+                context.Response.WriteAsync("On Tuesday we dont serve");
+            else
+                await next();//.Invoke();
+                //await next?.Invoke();            
+            // Do logging or other work that doesn't write to the Response.
+        });
+
+
         //שליחה למידלוור שיצרנו
         //שימוש פשוט
         //app ?.UseMiddleware<RequestCultureMiddleware>();
         //שימוש באמצעות פונקצית הרחבה
-        app.UseRequestCulture();
+
+         app.UseRequestCulture();
+       // app.UseMiddleware<ShomerShabatMiddleware>(); בלי פונקצית הרחבה
+        app.UseShabatMiddleware();//פונקציות הרחבה שאנחנו יצרנו
 
         //דוגמא להרצה של אתר עם תגובה טקסטואלית בלבד
         //app.Run(async context =>
@@ -92,7 +114,8 @@ public class Program
         //    await context.Response.WriteAsync("Our sit is at build. Thank you !");
         //});
 
-
         app.Run();
     }
+
+     
 }

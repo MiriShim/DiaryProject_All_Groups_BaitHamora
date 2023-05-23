@@ -44,7 +44,7 @@ namespace Repository.Migrations
 
                     b.HasIndex(new[] { "SchoolId" }, "IX_SchoolId");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Lesson", b =>

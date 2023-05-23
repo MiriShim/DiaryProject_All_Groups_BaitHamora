@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Middleware.Example;
+namespace Middleware;
 
 public class RequestCultureMiddleware
 {
@@ -23,9 +23,11 @@ public class RequestCultureMiddleware
         }
 
         // Call the next delegate/middleware in the pipeline.
-        await _next(context);
+        await _next( context );
     }
 }
+
+
 public static class RequestCultureMiddlewareExtensions
 {
     public static IApplicationBuilder UseRequestCulture(

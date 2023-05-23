@@ -50,8 +50,6 @@ public partial class DiaryContext : DbContext , IDiaryContext
         modelBuilder.Entity<Group>(entity =>
         {
             //fluent api
-            entity.ToTable("Classes");
-
             entity.HasKey(e => e.Id).HasName("PK_dbo.Groups");
 
             entity.HasIndex(e => e.SchoolId, "IX_SchoolId");

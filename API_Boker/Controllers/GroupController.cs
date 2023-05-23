@@ -11,10 +11,12 @@ namespace API_Boker.Controllers
     [ApiController]
     public class GroupController : ControllerBase
     {
+        private readonly  ILogger<GroupController> _logger;
        private readonly  IGroupService  _groupService;
 
-        public GroupController(IGroupService service)
+        public GroupController(IGroupService service,ILogger<GroupController > logger)
         {
+            _logger = logger;
             _groupService = service;
         }
 
@@ -26,11 +28,11 @@ namespace API_Boker.Controllers
             return _groupService.GetAll();   
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetWithSchool {id}")]
          
         public object GetWithSchool(int id)
         {
-
+            _logger.LogInformation("GetWithSchool");
             return _groupService.GetWithSchoolName(id);
 
         }

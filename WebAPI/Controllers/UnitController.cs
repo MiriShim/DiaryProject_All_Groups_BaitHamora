@@ -22,6 +22,7 @@ namespace WebAPI.Controllers
 
 
         [HttpGet]
+        //action
         public IEnumerable< UnitDTO> Get()
         {
             return service.GetAll();

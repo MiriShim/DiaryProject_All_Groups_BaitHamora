@@ -1,5 +1,8 @@
+using API_Boker.Controllers;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Configuration;
 using Repository.DbModels;
 using Repository.Imp;
 using Repository.Interfaces;
@@ -14,12 +17,34 @@ namespace API_Boker
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Logging.ClearProviders();
+
+            var logger = LoggerFactory.Create(config =>
+            {
+                config.AddConsole();
+                builder.Logging.AddDebug();
+
+            }).CreateLogger("Program");
+
+
+            //builder.Logging.AddConsole();
+            // builder.Logging.AddEventLog();
+            builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
+                , LogLevel.Information);
+            
+            builder.Services.AddLogging();
+            // Add this line to set the logging level for Entity Framework Core
+            
+
             // Add services to the container.
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();      
+            builder.Services.AddSwaggerGen();
+            
+            // Add this line to register your controller with the dependency injection system
+            builder.Services.AddScoped<GroupController>(); 
 
             builder.Services.AddScoped(typeof(ISchoolService), typeof(SchoolService));
             builder.Services.AddScoped(typeof(ISchoolRepository), typeof(SchoolRepository));
@@ -74,7 +99,6 @@ namespace API_Boker
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateNewDB : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,7 @@ namespace Repository.Migrations
                         .Annotation("SqlServer:TemporalHistoryTableSchema", null)
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "PeriodEnd")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "PeriodStart"),
-                    UnitName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UnitName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                         .Annotation("SqlServer:IsTemporal", true)
                         .Annotation("SqlServer:TemporalHistoryTableName", "UnitsHistory")
                         .Annotation("SqlServer:TemporalHistoryTableSchema", null)
@@ -89,6 +89,7 @@ namespace Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvarageMark = table.Column<int>(type: "int", nullable: false),
                     SchoolId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -102,12 +103,12 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lessons",
+                name: "LessonsTbl",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DateOfLesson = table.Column<DateTime>(type: "datetime", nullable: false),
                     Group_Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -126,11 +127,13 @@ namespace Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: true)
+                    GroupId = table.Column<int>(type: "int", nullable: true),
+                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,7 +159,7 @@ namespace Repository.Migrations
                     table.ForeignKey(
                         name: "FK_dbo.UnitLessons_dbo.Lessons_Lesson_Id",
                         column: x => x.Lesson_Id,
-                        principalTable: "Lessons",
+                        principalTable: "LessonsTbl",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -183,7 +186,7 @@ namespace Repository.Migrations
                     table.ForeignKey(
                         name: "FK_dbo.StudentExistances_dbo.Lessons_LessonId",
                         column: x => x.LessonId,
-                        principalTable: "Lessons",
+                        principalTable: "LessonsTbl",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -201,7 +204,7 @@ namespace Repository.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Group_Id",
-                table: "Lessons",
+                table: "LessonsTbl",
                 column: "Group_Id");
 
             migrationBuilder.CreateIndex(
@@ -243,7 +246,7 @@ namespace Repository.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Lessons");
+                name: "LessonsTbl");
 
             migrationBuilder.DropTable(
                 name: "Units")

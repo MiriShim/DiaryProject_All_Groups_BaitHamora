@@ -3,6 +3,7 @@ using Repository.DbModels;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -96,9 +97,14 @@ namespace Repository.Imp
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Group> GetGroupsWithSchool()
+        //public IEnumerable<Group> GetGroupsWithSchool()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public object GetDeatild(int  id)
         {
-            throw new NotImplementedException();
+             return context.Groups.Include( g => g.School).SingleOrDefault(g => g.Id == id);
         }
     }
 }

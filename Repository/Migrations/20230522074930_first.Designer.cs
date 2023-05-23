@@ -12,8 +12,8 @@ using Repository.DbModels;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DiaryContext))]
-    [Migration("20230516110843_addAvageMark_and_changeGroupsTableName")]
-    partial class addAvageMark_and_changeGroupsTableName
+    [Migration("20230522074930_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,7 @@ namespace Repository.Migrations
 
                     b.HasIndex(new[] { "SchoolId" }, "IX_SchoolId");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Lesson", b =>
@@ -59,7 +59,8 @@ namespace Repository.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime")
+                        .HasColumnName("DateOfLesson");
 
                     b.Property<int?>("GroupId")
                         .HasColumnType("int")
@@ -70,7 +71,7 @@ namespace Repository.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Group_Id");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("LessonsTbl");
                 });
 
             modelBuilder.Entity("Repository.DbModels.School", b =>
@@ -145,7 +146,8 @@ namespace Repository.Migrations
                         .HasColumnName("PeriodStart");
 
                     b.Property<string>("UnitName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id")
                         .HasName("PK_dbo.Units");
@@ -179,7 +181,11 @@ namespace Repository.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -224,6 +230,17 @@ namespace Repository.Migrations
                     b.HasIndex("GroupId");
 
                     b.HasDiscriminator().HasValue("Student");
+                });
+
+            modelBuilder.Entity("Repository.DbModels.Teacher", b =>
+                {
+                    b.HasBaseType("Repository.DbModels.User");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Teacher");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Group", b =>
