@@ -34,7 +34,6 @@ namespace API_Boker.Controllers
         {
             _logger.LogInformation("GetWithSchool");
             return _groupService.GetWithSchoolName(id);
-
         }
 
         //// GET api/<GroupController>/5
