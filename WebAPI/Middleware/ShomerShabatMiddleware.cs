@@ -15,7 +15,7 @@ namespace WebAPI.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
-                context.Response?.WriteAsync("אתר שומר שבת !!");
+                await   context.Response?.WriteAsync("אתר שומר שבת !!");
             else
             // Call the next delegate/middleware in the pipeline.
                  await next(context);
@@ -33,6 +33,9 @@ namespace WebAPI.Middleware
         {
             return    builder.UseMiddleware<ShomerShabatMiddleware>();
            // return builder;
+           //הפונקציה מחזירה את האוביקט שקיבלה כדי לאפשר 
+           //fluent API
+           //אבל זה לא חובה !!
         }
 
     }

@@ -48,12 +48,11 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection()
-            .UseAuthentication()
-            .UseRequestCulture()
-            .UseShabatMiddleware()
-            .UseDefaultFiles();
-
+        //app.UseHttpsRedirection()
+        //    .UseAuthentication()
+        //    .UseRequestCulture()
+        //    .UseShabatMiddleware();
+ 
         //àéîåú îùúîùéí
         app.UseAuthorization();
         //îéôåé ùì 
@@ -69,7 +68,10 @@ public class Program
             await next.Invoke();
             // Do logging or other work that doesn't write to the Response.
         });
-        //ãåâîà ìîéãìååø
+        //ãåâîIApplicationBuilderãìååø
+
+         
+
         app.Use(async (context, next) =>
         {
             var cultureQuery = context.Request.Query["culture"];
