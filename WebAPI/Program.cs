@@ -70,8 +70,26 @@ public class Program
         });
         //ãåâîIApplicationBuilderãìååø
 
-         
-
+        app.UseRouting();
+        //   // Summary:
+        //     Adds a Microsoft.AspNetCore.Routing.EndpointMiddleware middleware to the specified
+        //     Microsoft.AspNetCore.Builder.IApplicationBuilder with the Microsoft.AspNetCore.Routing.EndpointDataSource
+        //     instances built from configured Microsoft.AspNetCore.Routing.IEndpointRouteBuilder.
+        //     The Microsoft.AspNetCore.Routing.EndpointMiddleware will execute the Microsoft.AspNetCore.Http.Endpoint
+        //     associated with the current request.
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "blog",
+                pattern: "blog/{year}/{month}/{day}/{slug}",
+                defaults: new { controller = "Blog", action = "Post" });
+        });
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+        });
         app.Use(async (context, next) =>
         {
             var cultureQuery = context.Request.Query["culture"];
