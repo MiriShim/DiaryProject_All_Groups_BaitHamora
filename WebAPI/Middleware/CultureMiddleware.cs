@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Middleware;
+namespace WebAPI.Middleware;
 
 public class RequestCultureMiddleware
 {
@@ -30,9 +30,9 @@ public class RequestCultureMiddleware
 
 public static class RequestCultureMiddlewareExtensions
 {
-    public static IApplicationBuilder UseRequestCulture(
+    public static void  UseRequestCulture(
         this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<RequestCultureMiddleware>();
+          builder.UseMiddleware<RequestCultureMiddleware>();
     }
 }

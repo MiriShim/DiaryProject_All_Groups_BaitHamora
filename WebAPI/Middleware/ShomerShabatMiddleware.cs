@@ -31,7 +31,7 @@ namespace WebAPI.Middleware
     {
         public static IApplicationBuilder  UseShabatMiddleware(this IApplicationBuilder builder)
         {
-            return    builder.UseMiddleware<ShomerShabatMiddleware>();
+            return builder.UseMiddleware<ShomerShabatMiddleware>();
            // return builder;
            //הפונקציה מחזירה את האוביקט שקיבלה כדי לאפשר 
            //fluent API
