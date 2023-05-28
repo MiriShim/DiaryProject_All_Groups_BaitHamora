@@ -67,7 +67,7 @@ public class Program
         //מיפוי של 
         app.MapControllers();
       
-        app.Use(middlewareMethod);//inline middleware
+        //app.Use(middlewareMethod);//inline middleware
          
         // app.Use(async (context, next) =>
         //{
@@ -100,32 +100,32 @@ public class Program
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         });
-        app.Use(async (context, next) =>
-        {
-            var cultureQuery = context.Request.Query["culture"];
-            if (!string.IsNullOrWhiteSpace(cultureQuery))
-            {
-                var s = (CultureInfo.CurrentCulture);
-                var culture = new CultureInfo(cultureQuery);
+        //app.Use(async (context, next) =>
+        //{
+        //    var cultureQuery = context.Request.Query["culture"];
+        //    if (!string.IsNullOrWhiteSpace(cultureQuery))
+        //    {
+        //        var s = (CultureInfo.CurrentCulture);
+        //        var culture = new CultureInfo(cultureQuery);
 
-                CultureInfo.CurrentCulture = culture;
-                CultureInfo.CurrentUICulture = culture;
-            }
+        //        CultureInfo.CurrentCulture = culture;
+        //        CultureInfo.CurrentUICulture = culture;
+        //    }
 
-            // Call the next delegate/middleware in the pipeline.
-            await next(context);
-        });
+        //    // Call the next delegate/middleware in the pipeline.
+        //    await next(context);
+        //});
 
-        app.Use(async (context, next) =>
-        {
-            // Do work that can write to the Response.
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday  )
-                context.Response.WriteAsync("On Tuesday we dont serve");
-            else
-                await next();//.Invoke();
-                //await next?.Invoke();            
-            // Do logging or other work that doesn't write to the Response.
-        });
+        //app.Use(async (context, next) =>
+        //{
+        //    // Do work that can write to the Response.
+        //    if (DateTime.Now.DayOfWeek == DayOfWeek.Friday  )
+        //        context.Response.WriteAsync("On Tuesday we dont serve");
+        //    else
+        //        await next();//.Invoke();
+        //        //await next?.Invoke();            
+        //    // Do logging or other work that doesn't write to the Response.
+        //});
 
 
         //שליחה למידלוור שיצרנו
@@ -134,13 +134,13 @@ public class Program
         //שימוש באמצעות פונקצית הרחבה
 
  
-        app.UseMiddleware<ShomerShabatMiddleware>();//
+      //  app.UseMiddleware<ShomerShabatMiddleware>();//
        
-        app.UseMiddleware<Middleware.RequestCultureMiddleware>();//
+      //  app.UseMiddleware<Middleware.RequestCultureMiddleware>();//
 
-        app.UseRequestCulture();
+      //  app.UseRequestCulture();
                                                      //בלי פונקצית הרחבה
-        app.UseShabatMiddleware();//פונקציות הרחבה שאנחנו יצרנו
+      //  app.UseShabatMiddleware();//פונקציות הרחבה שאנחנו יצרנו
 
         //דוגמא להרצה של אתר עם תגובה טקסטואלית בלבד
         //app.Run(async context =>

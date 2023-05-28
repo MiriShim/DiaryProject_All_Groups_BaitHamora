@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return $"value fro my web api !! {id}";
         }
 
         // POST api/<Unit>

@@ -5,7 +5,7 @@ namespace DTO
     public class UnitDTO
     {
         public int Id { get; set; }
-        [CreditCard]
+        //[CreditCard]
         public string? UnitName { get; set; }
 
         public string? Comments { get; set; }

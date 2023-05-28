@@ -57,7 +57,9 @@ namespace Repository.Imp
 
         public bool AddNew(Unit obj)
         {
-            throw new NotImplementedException();
+            _dbContext.Add(obj);
+            _dbContext.SaveChanges();
+            return true;
         }
 
         public bool Delete<T>(int id)
@@ -72,7 +74,7 @@ namespace Repository.Imp
 
         public IEnumerable<Unit> Get()
         {
-            throw new NotImplementedException();
+          return   _dbContext.Units;
         }
 
         public IEnumerable<Unit> Get(Func<Group, bool> cond)
