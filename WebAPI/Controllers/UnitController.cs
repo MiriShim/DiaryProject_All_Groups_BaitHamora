@@ -23,9 +23,11 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         //action
-        public IEnumerable< UnitDTO> Get()
+        //public int IEnumerable< UnitDTO> Get()
+        public int  Get()
         {
-            return service.GetAll();
+            return 99999;
+           // return  service.GetAll();
         }
 
         // GET api/<Unit>/5
