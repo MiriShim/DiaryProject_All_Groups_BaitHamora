@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using NpgsqlTypes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,8 +14,9 @@ public partial class Lesson
     [DatabaseGenerated(DatabaseGeneratedOption.Identity   )]
     public int Id { get; set; }
     [Column ("DateOfLesson")]
-    public DateTime Date { get; set; }
-
+    [DataType("Timestamp")]
+    public DateTime LessonDate { get; set; }
+    
     public int? GroupId { get; set; }
 
     public virtual Group? Group { get; set; }

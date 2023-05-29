@@ -9,14 +9,6 @@
   <ItemGroup>
     <Compile Remove="Interfaces\IGroupDAL.cs" />
     <Compile Remove="Interfaces\IUnitDal.cs" />
-    <Compile Remove="Migrations\20230516101112_CreateNewDB.cs" />
-    <Compile Remove="Migrations\20230516101112_CreateNewDB.Designer.cs" />
-    <Compile Remove="Migrations\20230516110843_addAvageMark_and_changeGroupsTableName.cs" />
-    <Compile Remove="Migrations\20230516110843_addAvageMark_and_changeGroupsTableName.Designer.cs" />
-    <Compile Remove="Migrations\20230516111658_addTechers_And_TPH.cs" />
-    <Compile Remove="Migrations\20230516111658_addTechers_And_TPH.Designer.cs" />
-    <Compile Remove="Migrations\20230516113652_somesample3.cs" />
-    <Compile Remove="Migrations\20230516113652_somesample3.Designer.cs" />
   </ItemGroup>
 
   
@@ -27,11 +19,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <Folder Include="Migrations\" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
   </ItemGroup>
 
 </Project>

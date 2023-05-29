@@ -74,7 +74,8 @@ namespace Repository.Imp
 
         public IEnumerable<Unit> Get()
         {
-          return   _dbContext.Units;
+            var x = _dbContext.Units.ToList();
+          return   x;
         }
 
         public IEnumerable<Unit> Get(Func<Group, bool> cond)

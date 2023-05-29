@@ -65,7 +65,6 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
             entity.HasIndex(e => e.GroupId, "IX_Group_Id");
 
-            entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.GroupId).HasColumnName("Group_Id");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Lessons)

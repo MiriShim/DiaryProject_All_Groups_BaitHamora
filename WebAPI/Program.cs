@@ -9,7 +9,8 @@ using Repository.Interfaces;
 using Repository.Imp;
 using System.Globalization;
 using WebAPI.Middleware;
- 
+using Npgsql;
+using Repository.DbModels;
 
 namespace WebAPI;
 
@@ -31,14 +32,24 @@ public class Program
         builder.Services.AddAutoMapper(c => c.AddProfile(typeof(MyMappingProfile)));
 
         string csName = Environment.UserName.StartsWith("st") ? "DiaryDatabaseSchool" : "DiaryDatabaseHome";
+        
         string connString = builder.Configuration.GetConnectionString(csName) ?? throw new Exception("לא נמצאה מחרוזת חיבור תקינה");
-        builder.Services.AddDbContext<Repository.DbModels.DiaryContext>(op => op.UseSqlServer(connString));
+
+       // var connectionstring = _configuration.GetConnectionString("prattleDatabase");
+ 
+        connString = "postgres://mirishim:dlbYkcbRlQbpg8DgJRqMiVW5jLNuh5a6@dpg-chp77s67avjb90ia1d10-a.oregon-postgres.render.com/diaryallgroupsdb";
+        connString = @"host=dpg-chp77s67avjb90ia1d10-a.oregon-postg\r\nres.render.com port=5432 dbname=diaryallgroupsdb user=mirishim sslmode=prefer connect_timeout=10";
+        connString = @"postgres://mirishim:dlbYkcbRlQbpg8DgJRqMiVW5jLNuh5a6@dpg-chp77s67avjb90ia1d10-a.oregon-postgres.render.com/diaryallgroupsdb";
+      
+
+        //builder.Services.AddDbContext<Repository.DbModels.DiaryContext>(op => op.UseSqlServer(connString));
+        builder.Services.AddDbContext<DiaryContext>(op => op.UseNpgsql("name=PostresqlConnectionString"));
 
         //builder.Services.AddDbContext<Repository.DbModels.DiaryContext >(options =>
         //    options.UseSqlServer(builder.Configuration.GetConnectionString("DiaryDatabase"))) ;
 
         builder.Services.AddBlServices();
-        
+ 
         builder.Services.AddCors(op=>
         op.AddPolicy("myPolicy",
            a =>
