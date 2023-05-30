@@ -43,7 +43,7 @@ public class Program
       
 
         //builder.Services.AddDbContext<Repository.DbModels.DiaryContext>(op => op.UseSqlServer(connString));
-        builder.Services.AddDbContext<DiaryContext>(op => op.UseNpgsql("name=postresqlconnectionstring"));
+        builder.Services.AddDbContext<DiaryContext>(op => op.UseNpgsql("name=postgresqlconnectionstring"));
 
         //builder.Services.AddDbContext<Repository.DbModels.DiaryContext >(options =>
         //    options.UseSqlServer(builder.Configuration.GetConnectionString("DiaryDatabase"))) ;

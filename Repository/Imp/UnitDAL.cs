@@ -20,20 +20,35 @@ namespace Repository.Imp
         }
         public List<Unit> GetAll()
         {
-            return _dbContext.Units .ToList();
+            try
+            {
+                return _dbContext.Units.ToList();
+            }
+            catch
+            {
+                //todo:: logging!!
+
+                return null;
+            }
         }
 
         public async void Save(Unit unit)
         {
-            _dbContext.Units.Update  (unit);
+            try
+            {
+                _dbContext.Units.Update(unit);
 
-            
-            _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
+            }
+            catch
+            {
+                //todo:: logging!!
+            }
         }
 
         public void learnStates()
         {
-            DiaryContext ctx = new();
+            DiaryContext ctx = (DiaryContext)_dbContext;
 
             Unit u1 = ctx.Units.Find(6);
             var state = ctx.Entry<Unit>(u1).State ;
