@@ -1,4 +1,5 @@
 ﻿using DTO;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Repository.DbModels;
 using Services.ServiceAPI;
@@ -56,5 +57,12 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
+
+        //[Route("/error")]
+        //public IActionResult HandleError() =>
+        //    Problem(
+        //        detail: ExceptionHandlerFeature.Error.StackTrace,
+        //        title: exceptionHandlerFeature.Error.Message
+        //        );
     }
 }

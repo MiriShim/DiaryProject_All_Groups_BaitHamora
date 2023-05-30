@@ -11,6 +11,7 @@ using System.Globalization;
 using WebAPI.Middleware;
 using Npgsql;
 using Repository.DbModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebAPI;
 
@@ -49,7 +50,6 @@ public class Program
         //    options.UseSqlServer(builder.Configuration.GetConnectionString("DiaryDatabase"))) ;
 
         builder.Services.AddBlServices();
- 
         builder.Services.AddCors(op=>
         op.AddPolicy("myPolicy",
            a =>
@@ -60,6 +60,21 @@ public class Program
            }));
 
         WebApplication app = builder.Build();
+
+        app.UseHttpsRedirection();
+
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/error");
+        }
+        app.UseStatusCodePages(async statusCodeContext =>
+        {
+            // using static System.Net.Mime.MediaTypeNames;
+            statusCodeContext.HttpContext.Response.ContentType = Text.Plain;
+
+            await statusCodeContext.HttpContext.Response.WriteAsync(
+                $"Status Code Page: {statusCodeContext.HttpContext.Response.StatusCode}");
+        });
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
