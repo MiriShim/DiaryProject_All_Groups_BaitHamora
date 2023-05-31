@@ -12,8 +12,8 @@ using Repository.DbModels;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DiaryContext))]
-    [Migration("20230531080111_change_group_field")]
-    partial class change_group_field
+    [Migration("20230531111110_some_changes")]
+    partial class some_changes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,10 +153,6 @@ namespace Repository.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -174,9 +170,7 @@ namespace Repository.Migrations
 
                     b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("UnitLesson", b =>
@@ -208,7 +202,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasDiscriminator().HasValue("Student");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("Repository.DbModels.Teacher", b =>
@@ -219,7 +213,7 @@ namespace Repository.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasDiscriminator().HasValue("Teacher");
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Group", b =>
@@ -288,7 +282,22 @@ namespace Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Repository.DbModels.User", null)
+                        .WithOne()
+                        .HasForeignKey("Repository.DbModels.Student", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("Repository.DbModels.Teacher", b =>
+                {
+                    b.HasOne("Repository.DbModels.User", null)
+                        .WithOne()
+                        .HasForeignKey("Repository.DbModels.Teacher", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Repository.DbModels.Group", b =>

@@ -1,4 +1,5 @@
-﻿using Repository.DbModels;
+﻿using DTO;
+using Repository.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace Services.ServiceAPI
 {
     public  interface IStudentService
     {
-        bool AddNew(DTO.StudentDTO  student);
+        bool AddNew(StudentDTO  student);
+
+        List<StudentDTO> GetAll();
+
+        void Update(StudentDTO student );
     }
 }

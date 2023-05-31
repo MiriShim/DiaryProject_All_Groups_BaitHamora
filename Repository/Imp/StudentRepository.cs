@@ -45,7 +45,8 @@ namespace Repository.Imp
 
         public IEnumerable<Student> Get()
         {
-            throw new NotImplementedException();
+            return ctx.Students;
+            
         }
 
         public IEnumerable<Student> Get(Func<Group, bool> cond)

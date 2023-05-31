@@ -70,6 +70,7 @@ public class Program
         {
             app.UseExceptionHandler("/error");
         }
+       
         app.UseStatusCodePages(async statusCodeContext =>
         {
             // using static System.Net.Mime.MediaTypeNames;

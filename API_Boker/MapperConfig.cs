@@ -18,7 +18,7 @@ namespace API_Boker
 
             CreateMap<Student , StudentDTO >()
                 //מיפוי לשם בית הספר מתוך טבלה קשורה לא חובה
-                .ForMember(m => m.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(m => m.EmailAddress, opt => opt.MapFrom(src => src.Email))
             .ReverseMap();
       
         }

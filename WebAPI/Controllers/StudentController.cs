@@ -1,29 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Repository.DbModels;
-using Services.ServiceAPI;
-
+ 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API_Boker.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly  IStudentService studentService;
-        public StudentController(IStudentService _studentService)
+        private readonly  IStudentService _studentService;
+
+        public StudentController(IStudentService  studentService)
         {
-            studentService=_studentService;
+            _studentService = studentService;
         }
 
         // GET: api/<StudentController>
         [HttpGet]
-        public IEnumerable< DTO.StudentDTO  > Get()
+        public List <StudentDTO > Get()
         {
-            //Studentbl bl = new Studentbl();
-            //return bl.getallstudent();
-
-            return studentService.GetAll();
+            return _studentService.GetAll();
         }
 
         // GET api/<StudentController>/5
@@ -35,9 +31,8 @@ namespace API_Boker.Controllers
 
         // POST api/<StudentController>
         [HttpPost]
-        public void Post([FromBody] Student student)
+        public void Post([FromBody] string value)
         {
-           // studentService.AddNew(student);
         }
 
         // PUT api/<StudentController>/5
