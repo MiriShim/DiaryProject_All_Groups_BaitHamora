@@ -59,7 +59,6 @@ namespace API_Boker
             builder.Services.AddScoped(typeof(ICRUD<Unit> ), typeof(Repository.Imp.UnitDAL ));
             builder.Services.AddScoped(typeof(IUnitService), typeof(UnitServices));
            
-            
             builder.Services.AddScoped(typeof(IDiaryContext), typeof(DiaryContext));
              
             string connStrConfigName = Environment.UserName switch 

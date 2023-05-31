@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.DbModels;
 
+//[Table ("students")]
 public partial class Student:User
 {
 

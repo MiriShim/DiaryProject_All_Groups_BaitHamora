@@ -11,7 +11,7 @@ namespace Repository.DbModels
     {
         public override string ToString()
         {
-            return $"{nameof (Id)}:{this.Id}, {nameof(Name)}:{Name }";
+            return $"{nameof (Id)}:{this.Id}, {nameof(GroupName )}:{GroupName}";
         }
     }
     public partial class DiaryContext

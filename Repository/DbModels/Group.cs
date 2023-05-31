@@ -2,15 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.DbModels;
 
+//[Table("Kitot")]
 public partial class Group
 {
     [Key]
     public int Id { get; set; }
-    public string? Name { get; set; }
-    public int AvarageMark { get; set; }
+    [MinLength(2) ]
+    [MaxLength(30) ]
+    public string? GroupName { get; set; }
+   
 
     public int? SchoolId { get; set; }
     

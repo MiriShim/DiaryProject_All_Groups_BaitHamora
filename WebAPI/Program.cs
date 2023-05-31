@@ -29,6 +29,9 @@ public class Program
         builder.Services.AddSwaggerGen();
         // builder.Services.AddScoped(typeof( IUnitService ),typeof( UnitServices));
         builder.Services.AddScoped<IUnitService, UnitServices>();
+        builder.Services.AddScoped<IGroupService, GroupServices>();
+        builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+       
 
         builder.Services.AddAutoMapper(c => c.AddProfile(typeof(MyMappingProfile)));
 

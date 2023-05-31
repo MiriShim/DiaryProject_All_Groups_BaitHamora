@@ -47,8 +47,11 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder )
     {
+        modelBuilder.Entity<Student>(entity=>entity.ToTable("Students"));//tpt
+
         modelBuilder.Entity<Group>(entity =>
         {
+             
             //fluent api
             entity.HasKey(e => e.Id).HasName("PK_dbo.Groups");
 
@@ -61,6 +64,7 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
         modelBuilder.Entity<Lesson>(entity =>
         {
+
             entity.HasKey(e => e.Id).HasName("PK_dbo.Lessons");
 
             entity.HasIndex(e => e.GroupId, "IX_Group_Id");
