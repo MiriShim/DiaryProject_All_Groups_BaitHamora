@@ -10,11 +10,13 @@ namespace Repository.DbModels;
 public partial class Group
 {
     [Key]
+  //[DatabaseGenerated(DatabaseGeneratedOption.None ) ]
     public int Id { get; set; }
+  
     [MinLength(2) ]
     [MaxLength(30) ]
+    //[DataType("nvarchar(30)")]
     public string? GroupName { get; set; }
-   
 
     public int? SchoolId { get; set; }
     

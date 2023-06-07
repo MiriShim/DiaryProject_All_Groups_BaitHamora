@@ -43,7 +43,18 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder )
     {
-        modelBuilder.Entity<Student>(entity=>entity.ToTable("Students"));//tpt
+        //TPH -table per hirarchy
+
+        //TPT - table per type
+        modelBuilder.Entity<Student>(entity=>entity.ToTable("Students"));
+
+        //TPC - table per concret type
+        //modelBuilder.Entity<User>().UseTpcMappingStrategy()
+        //    .ToTable("Users");
+        //modelBuilder.Entity<Student>()
+        //    .ToTable("Students");
+        //modelBuilder.Entity<Teacher>()
+        //    .ToTable("Teachers");
 
         modelBuilder.Entity<Group>(entity =>
         {

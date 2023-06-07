@@ -8,6 +8,7 @@ using Repository.Imp;
 using Repository.Interfaces;
 using Services.ServiceAPI;
 using Services.ServicesImp;
+using System.Diagnostics;
 
 namespace API_Boker
 {
@@ -17,24 +18,30 @@ namespace API_Boker
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Logging.ClearProviders();
+            //EventLog log = new EventLog("Application");
+             
+            //log.Source = "Application";
+            //log.WriteEntry($"my site on {DateTime.Now}");
 
-            var logger = LoggerFactory.Create(config =>
+            builder.Logging.ClearProviders();
+         
+            //builder.Logging.AddConsole();
+           
+            builder.Services.AddLogging(config =>
             {
                 config.AddConsole();
-                builder.Logging.AddDebug();
-
-            }).CreateLogger("Program");
-
-
-            //builder.Logging.AddConsole();
-            // builder.Logging.AddEventLog();
-            builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
+                config.AddEventLog();
+                config.AddDebug();
+                config.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
                 , LogLevel.Information);
+            });
             
-            builder.Services.AddLogging();
+            
             // Add this line to set the logging level for Entity Framework Core
-            
+
+            // optionsBuilder.UseLoggerFactory(loggerFactory)  //tie-up DbContext with LoggerFactory object
+            //.EnableSensitiveDataLogging()
+            //.UseSqlServer(
 
             // Add services to the container.
 

@@ -7,11 +7,11 @@ using Services.ServiceAPI;
 
 namespace API_Boker.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api123/[controller]")]
     [ApiController]
     public class GroupController : ControllerBase
     {
-        private readonly  ILogger<GroupController> _logger;
+       private readonly  ILogger<GroupController> _logger;
        private readonly  IGroupService  _groupService;
 
         public GroupController(IGroupService service,ILogger<GroupController > logger)
@@ -24,9 +24,18 @@ namespace API_Boker.Controllers
         [HttpGet]
         public IEnumerable<DTO.GroupDTO> Get()
         {
-            
+            _logger.LogInformation($"Get executed at : {DateTime.Now.ToShortTimeString()  }");
             return _groupService.GetAll();   
         }
+
+        [HttpGet("Somthing/{num}")]
+        public  string   Somthing(int num)
+        {
+             
+            return $"Somthing {num}";
+
+        }
+
 
         [HttpGet("GetWithSchool {id}")]
          
