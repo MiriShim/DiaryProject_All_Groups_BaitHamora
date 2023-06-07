@@ -57,7 +57,7 @@ namespace Repository.Imp
             //var prev11 = ctx.Units.TemporalAll<Unit >( ).Where(a=> );
             var prev22 = ctx.Units.TemporalAsOf(DateTime.Today.AddYears(-1));
 
-            var history = ctx.Units .TemporalAll().Where(emp => emp.Id == 2)
+            var history = ctx.Units .TemporalAll().Where(emp => emp.UnitId == 2)
               .OrderByDescending(emp => EF.Property<DateTime>(emp, "PeriodStart"))
               .Select(emp => new {
                   Employee = emp,

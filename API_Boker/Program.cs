@@ -63,14 +63,15 @@ namespace API_Boker
              
             string connStrConfigName = Environment.UserName switch 
             { 
-                "mora2" or "talmid2" => "SharanskiConnection",
+                "mora2" or "talmid2" => "BokerConnectionNew",
                 "st45" => "SeminarOfakimConnection",
                 "Miriam"  => "HomeConnection", 
                 _  => "HomeConnection" 
             };
 
             builder.Services.AddDbContext<DiaryContext>(
-                 optionB => optionB.UseSqlServer($"name=ConnectionStrings:{connStrConfigName}"));
+                 optionB => optionB.UseSqlServer($"name={connStrConfigName}"));
+                // optionB => optionB.UseSqlServer($"name=ConnectionStrings:{connStrConfigName}"));
 
             //       => optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
             //        => optionsBuilder.UseSqlServer("Data Source=FSQLN\\FSQLN;Initial Catalog=Diary_YomAroch_5783;Integrated Security=True;trustservercertificate=true");

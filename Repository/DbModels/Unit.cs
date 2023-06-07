@@ -5,7 +5,7 @@ namespace Repository.DbModels;
 
 public partial class Unit
 {
-    public int Id { get; set; }
+    public int UnitId { get; set; }
 
     public string? UnitName { get; set; }
 

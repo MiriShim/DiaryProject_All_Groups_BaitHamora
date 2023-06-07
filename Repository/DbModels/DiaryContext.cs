@@ -25,14 +25,10 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
     public virtual DbSet<Student> Students { get; set; }
     public virtual DbSet<Teacher> Teachers { get; set; }
-    
+   
     public virtual DbSet<User> Users { get; set; }
-
     public virtual DbSet<StudentExistance> StudentExistances { get; set; }
-
     public virtual DbSet<Unit> Units { get; set; }
-
-    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //optionsBuilder.UseSqlServer("Server=.;Database=diary;Trusted_Connection=True;trustserverCertificate=true");
@@ -51,10 +47,9 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
         modelBuilder.Entity<Group>(entity =>
         {
-             
             //fluent api
             entity.HasKey(e => e.Id).HasName("PK_dbo.Groups");
-
+           // entity.HasData(new Group() { GroupName = "Cita vav" });
             entity.HasIndex(e => e.SchoolId, "IX_SchoolId");
 
             entity.HasOne(d => d.School).WithMany(p => p.Groups)
@@ -79,6 +74,7 @@ public partial class DiaryContext : DbContext , IDiaryContext
         modelBuilder.Entity<School>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_dbo.Schools");
+           // entity.HasData(new School() { Name = "Bail hamore" });
         });
 
         modelBuilder.Entity<StudentExistance>(entity =>
@@ -104,7 +100,7 @@ public partial class DiaryContext : DbContext , IDiaryContext
 
             entity.Property(e => e.UnitName).HasMaxLength(50);
 
-            entity.HasKey(e => e.Id).HasName("PK_dbo.Units");
+            entity.HasKey(e => e.UnitId).HasName("PK_dbo.Units");
 
             entity.HasMany(d => d.Lessons).WithMany(p => p.Units)
                 .UsingEntity<Dictionary<string, object>>(

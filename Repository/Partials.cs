@@ -7,18 +7,25 @@ using System.Threading.Tasks;
 
 namespace Repository.DbModels
 {
-    public partial  class Group
+    partial class Group
     {
         public override string ToString()
         {
             return $"{nameof (Id)}:{this.Id}, {nameof(GroupName )}:{GroupName}";
         }
     }
-    public partial class DiaryContext
+   
+     partial class DiaryContext
     {
+       
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
         {
-
+            //User admin = new User();
+            //admin.FirstName = "admin";
+            //admin.Password = "1234";
+            //admin.LastName = "usera";
+            //this.Users.Add(admin);
+            //this.SaveChanges();
         }
     }
 }
