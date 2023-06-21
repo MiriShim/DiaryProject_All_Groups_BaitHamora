@@ -26,6 +26,7 @@ namespace WebAPI.Controllers
         {
             _logger.LogInformation($"GroupController Get executed at : {DateTime.Now.ToShortTimeString()}");
 
+
             return _groupService.GetAll();
         }
 
@@ -33,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "תגובה מהשירות שיצרנו";
         }
 
         // POST api/<GroupController>
