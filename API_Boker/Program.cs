@@ -33,7 +33,7 @@ namespace API_Boker
                 config.AddEventLog();
                 config.AddDebug();
                 config.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
-                , LogLevel.Information);
+                , LogLevel.Critical);
             });
             
             

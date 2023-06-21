@@ -24,7 +24,7 @@ namespace API_Boker.Controllers
         [HttpGet]
         public IEnumerable<DTO.GroupDTO> Get()
         {
-            _logger.LogInformation($"Get executed at : {DateTime.Now.ToShortTimeString()  }");
+            _logger.LogInformation($"GroupController Get executed at : {DateTime.Now.ToShortTimeString()  }");
             return _groupService.GetAll();   
         }
 

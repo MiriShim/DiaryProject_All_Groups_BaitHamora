@@ -8,11 +8,24 @@ namespace WebAPI.Controllers
     [ApiController]
     public class GroupController : ControllerBase
     {
-        private readonly IGroupService _groupService;
+        private readonly ILogger<GroupController> _logger;
+   private readonly IGroupService _groupService;
+
+        public GroupController(IGroupService service, ILogger<GroupController> logger)
+        {
+            _logger = logger;
+            _groupService = service;
+        }
+
+      
+       
+
         // GET: api/<GroupController>
         [HttpGet]
         public IEnumerable<GroupDTO> Get()
         {
+            _logger.LogInformation($"GroupController Get executed at : {DateTime.Now.ToShortTimeString()}");
+
             return _groupService.GetAll();
         }
 

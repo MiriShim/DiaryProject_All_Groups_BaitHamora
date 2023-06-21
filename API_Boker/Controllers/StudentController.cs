@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repository.DbModels;
 using Services.ServiceAPI;
+using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,7 +15,11 @@ namespace API_Boker.Controllers
         private readonly  IStudentService studentService;
         public StudentController(IStudentService _studentService)
         {
-            studentService=_studentService;
+            EventLog eventLog = new EventLog("Application");
+            eventLog.Source = "Application";
+            eventLog.WriteEntry($"StudentController new instance at {DateTime.Now.ToShortTimeString}", EventLogEntryType.SuccessAudit );
+
+            studentService = _studentService;
         }
 
         // GET: api/<StudentController>
