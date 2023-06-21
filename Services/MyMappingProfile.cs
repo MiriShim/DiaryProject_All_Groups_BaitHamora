@@ -9,6 +9,10 @@ namespace Services
     {
         public MyMappingProfile()
         {
+            CreateMap<Group, GroupDTO>()
+              //.ForMember(s=>s.ParentUnitId,a=>a.MapFrom(m=>m.ParentUnitId ))
+              .ReverseMap();
+
             CreateMap< Unit,  UnitDTO>()
                 //.ForMember(s=>s.ParentUnitId,a=>a.MapFrom(m=>m.ParentUnitId ))
                 .ReverseMap();
