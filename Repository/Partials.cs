@@ -20,12 +20,9 @@ namespace Repository.DbModels
        
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
         {
-            //User admin = new User();
-            //admin.FirstName = "admin";
-            //admin.Password = "1234";
-            //admin.LastName = "usera";
-            //this.Users.Add(admin);
-            //this.SaveChanges();
+            modelBuilder.Entity<School>().HasData(
+                new School() {Id=-1, Name = "Seminar sharansky" }
+                );
         }
     }
 }

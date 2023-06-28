@@ -1,16 +1,11 @@
-using AutoMapper;
 //using Microsoft.Extensions.Configuration;
-using Services.ServiceAPI;
-using Services.ServicesImp;
 using Microsoft.EntityFrameworkCore;
-using Services;
-using Microsoft.IdentityModel.Abstractions;
-using Repository.Interfaces;
 using Repository.Imp;
+using Repository.Interfaces;
+using Services;
+using Services.ServicesImp;
 using System.Globalization;
 using WebAPI.Middleware;
-using Npgsql;
-using Repository.DbModels;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WebAPI;
@@ -28,12 +23,22 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         // builder.Services.AddScoped(typeof( IUnitService ),typeof( UnitServices));
+       
         builder.Services.AddScoped<IUnitService, UnitServices>();
         builder.Services.AddScoped<IGroupService, GroupServices>();
         builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-       
-
+        
         builder.Services.AddAutoMapper(c => c.AddProfile(typeof(MyMappingProfile)));
+
+        builder.Services.AddLogging(aaa =>
+        {
+            aaa.AddConsole();
+            aaa.AddEventLog();
+            aaa.AddDebug();
+            aaa.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
+            , LogLevel.Critical);
+
+         });
 
         string csName = Environment.UserName.StartsWith("st") ? "DiaryDatabaseSchool" : "DiaryDatabaseHome";
         
@@ -53,15 +58,17 @@ public class Program
         //    options.UseSqlServer(builder.Configuration.GetConnectionString("DiaryDatabase"))) ;
 
         builder.Services.AddBlServices();
+       
         builder.Services.AddCors(op=>
-        op.AddPolicy("myPolicy",
-           a =>
-           {
-               a.AllowAnyHeader();
-               a.AllowAnyMethod();
-               a.AllowAnyOrigin();
-           }));
+            op.AddPolicy("myPolicy",
+               a =>
+               {
+                   a.AllowAnyHeader();
+                   a.AllowAnyMethod();
+                   a.AllowAnyOrigin();
+               }));
 
+ 
         WebApplication app = builder.Build();
 
         app.UseHttpsRedirection();
@@ -91,24 +98,25 @@ public class Program
         //    .UseAuthentication()
         //    .UseRequestCulture()
         //    .UseShabatMiddleware();
+        app.UseShabatMiddleware();
 
         //אימות משתמשים
         app.UseAuthorization();
         //מיפוי של 
         app.MapControllers();
-      
-        //app.Use(middlewareMethod);//inline middleware
-         
-        // app.Use(async (context, next) =>
-        //{
-        //    if (DateTime.Now.DayOfWeek ==DayOfWeek.Saturday )
-        //        await context.Response.WriteAsync("The site is inactive on saturday");
-        //    else
-        //    // Do work that can write to the Response.
-        //    await next.Invoke();
-        //    // Do logging or other work that doesn't write to the Response.
-        //});
-        //דוגמIApplicationBuilderדלוור
+
+        app.Use(middle1method);
+
+        app.Use(async (context, next) =>
+        {
+           if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
+               await context.Response.WriteAsync("The site is inactive on saturday");
+           else
+                // Do work that can write to the Response.
+               await next.Invoke();
+            // Do logging or other work that doesn't write to the Response.
+        });
+
 
         app.UseRouting();
         //   // Summary:
@@ -130,21 +138,26 @@ public class Program
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         });
-        //app.Use(async (context, next) =>
-        //{
-        //    var cultureQuery = context.Request.Query["culture"];
-        //    if (!string.IsNullOrWhiteSpace(cultureQuery))
-        //    {
-        //        var s = (CultureInfo.CurrentCulture);
-        //        var culture = new CultureInfo(cultureQuery);
+         
 
-        //        CultureInfo.CurrentCulture = culture;
-        //        CultureInfo.CurrentUICulture = culture;
-        //    }
+        #region middlewares
 
-        //    // Call the next delegate/middleware in the pipeline.
-        //    await next(context);
-        //});
+        app.Use(async (context, next) =>
+        {
+            string?  cultureQuery = context.Request.Query["culture"];
+            if (!string.IsNullOrWhiteSpace(cultureQuery))
+            {
+               // var s = (CultureInfo.CurrentCulture);
+                var culture = new CultureInfo(cultureQuery);
+
+                CultureInfo.CurrentCulture = culture;
+                CultureInfo.CurrentUICulture = culture;
+
+            }
+
+            // Call the next delegate/middleware in the pipeline.
+            await next(context);
+        });
 
         //app.Use(async (context, next) =>
         //{
@@ -157,20 +170,9 @@ public class Program
         //    // Do logging or other work that doesn't write to the Response.
         //});
 
-
-        //שליחה למידלוור שיצרנו
-        //שימוש פשוט
-        //app ?.UseMiddleware<RequestCultureMiddleware>();
-        //שימוש באמצעות פונקצית הרחבה
-
  
-      //  app.UseMiddleware<ShomerShabatMiddleware>();//
-       
-      //  app.UseMiddleware<Middleware.RequestCultureMiddleware>();//
-
-      //  app.UseRequestCulture();
-                                                     //בלי פונקצית הרחבה
-      //  app.UseShabatMiddleware();//פונקציות הרחבה שאנחנו יצרנו
+        //בלי פונקצית הרחבה
+        //  app.UseShabatMiddleware();//פונקציות הרחבה שאנחנו יצרנו
 
         //דוגמא להרצה של אתר עם תגובה טקסטואלית בלבד
         //app.Run(async context =>
@@ -178,9 +180,19 @@ public class Program
         //    //a single anonymous function is called in response to every HTTP request:
         //    await context.Response.WriteAsync("Our sit is at build. Thank you !");
         //});
-
+        #endregion 
         app.UseCors("policy");
         app.Run();
+    }
+
+    private static Task middle1method(HttpContext context, Func<Task> next)
+    {
+        if (DateTime.Now.DayOfWeek == DayOfWeek.Wednesday)
+            return context.Response.WriteAsync("אין שירות ביום רביעי");
+        else
+            return next( );
+        //code for the return way
+         
     }
 
     private static async Task middlewareMethod(HttpContext context, Func<Task> next)

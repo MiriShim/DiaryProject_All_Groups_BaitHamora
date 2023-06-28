@@ -15,7 +15,7 @@ namespace WebAPI.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
-                await   context.Response?.WriteAsync("אתר שומר שבת !!");
+                await   context.Response.WriteAsync("אתר שומר שבת !!");
             else
             // Call the next delegate/middleware in the pipeline.
                  await next(context);

@@ -27,12 +27,12 @@ namespace API_Boker
          
             //builder.Logging.AddConsole();
            
-            builder.Services.AddLogging(config =>
+            builder.Services.AddLogging(aaa =>
             {
-                config.AddConsole();
-                config.AddEventLog();
-                config.AddDebug();
-                config.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
+                aaa.AddConsole();
+                aaa.AddEventLog();
+                aaa.AddDebug();
+                aaa.AddFilter("Microsoft.EntityFrameworkCore.Database.Command"
                 , LogLevel.Critical);
             });
             
@@ -54,6 +54,7 @@ namespace API_Boker
             builder.Services.AddScoped<GroupController>(); 
 
             builder.Services.AddScoped(typeof(ISchoolService), typeof(SchoolService));
+            
             builder.Services.AddScoped(typeof(ISchoolRepository), typeof(SchoolRepository));
             //
             builder.Services.AddScoped(typeof(IStudentService),typeof(StudentService)); 
@@ -109,7 +110,29 @@ namespace API_Boker
 
             app.MapControllers();
 
+            app.Use(async (context, next) =>
+            {
+                if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
+                    await context.Response.WriteAsync("The site is inactive on saturday");
+                else
+                    // Do work that can write to the Response.
+                    await next.Invoke();
+                // Do logging or other work that doesn't write to the Response.
+            });
+
+            app.Use(middle1method);
+
             app.Run();
         }
+
+        private static Task middle1method(HttpContext context, Func<Task> next)
+        {
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Wednesday)
+                return context.Response.WriteAsync("אין שירות ביום רביעי");
+            else
+                return next();
+            //code for the return way
+        }
+
     }
 }

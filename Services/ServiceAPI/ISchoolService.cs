@@ -1,10 +1,9 @@
-﻿using Repository.DbModels;
+﻿global using Repository.DbModels;
 
-namespace Services.ServiceAPI
+namespace Services.ServiceAPI;
+
+public interface ISchoolService
 {
-    public interface ISchoolService
-    {
-        bool AddNew(School school);
-        IEnumerable<School> GetAll();
-    }
+    bool AddNew(School school);
+    IEnumerable<School> GetAll();
 }

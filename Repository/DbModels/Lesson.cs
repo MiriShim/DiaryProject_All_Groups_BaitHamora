@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.DbModels;
 //data annotations
-[Table ("LessonsTbl")]
+[Table ("Lessons")]
 public partial class Lesson
 {
     [Key]

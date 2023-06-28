@@ -65,8 +65,6 @@ namespace Repository.Imp
                   PeriodEnd = EF.Property<DateTime>(emp, "PeriodEnd")
               }).ToList();
 
-
-
             ctx.SaveChanges();
         }
 
