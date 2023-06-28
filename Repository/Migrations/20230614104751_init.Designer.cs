@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository.DbModels;
@@ -11,9 +12,11 @@ using Repository.DbModels;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DiaryContext))]
-    partial class DiaryContextModelSnapshot : ModelSnapshot
+    [Migration("20230614104751_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +69,7 @@ namespace Repository.Migrations
 
                     b.HasIndex(new[] { "GroupId" }, "IX_Group_Id");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("LessonsTbl");
                 });
 
             modelBuilder.Entity("Repository.DbModels.School", b =>
@@ -84,13 +87,6 @@ namespace Repository.Migrations
                         .HasName("PK_dbo.Schools");
 
                     b.ToTable("Schools");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            Name = "Seminar sharansky"
-                        });
                 });
 
             modelBuilder.Entity("Repository.DbModels.StudentExistance", b =>
