@@ -6,8 +6,8 @@ using System.Diagnostics;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+  // [Route("api/[controller]")]
+    //[ApiController]
     public class GroupController : ControllerBase
     {
         private readonly ILogger<GroupController> _logger;
@@ -19,9 +19,6 @@ namespace WebAPI.Controllers
             _logger = logger;
             _groupService = service;
         }
-
-
-
 
         // GET: api/<GroupController>
         [HttpGet]

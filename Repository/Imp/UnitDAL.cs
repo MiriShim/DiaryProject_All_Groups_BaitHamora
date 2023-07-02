@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Repository.Imp
 {
-    public class UnitDAL: ICRUD<Unit >  //IUnitDal
+    public class UnitDAL : ICRUD<Unit>  //IUnitDal
     {
-        private readonly IDiaryContext  _dbContext;
-        public UnitDAL(IDiaryContext  dbContext)
+        private readonly IDiaryContext _dbContext;
+        public UnitDAL(IDiaryContext dbContext)
         {
-            _dbContext= dbContext;  
+            _dbContext = dbContext;
         }
         public List<Unit> GetAll()
         {
@@ -26,8 +26,6 @@ namespace Repository.Imp
             }
             catch
             {
-                //todo:: logging!!
-
                 return null;
             }
         }
@@ -51,15 +49,16 @@ namespace Repository.Imp
             DiaryContext ctx = (DiaryContext)_dbContext;
 
             Unit u1 = ctx.Units.Find(6);
-            var state = ctx.Entry<Unit>(u1).State ;
+            var state = ctx.Entry<Unit>(u1).State;
 
             var prevYear = ctx.Units.TemporalAsOf(DateTime.Today.AddYears(-1));
             //var prev11 = ctx.Units.TemporalAll<Unit >( ).Where(a=> );
             var prev22 = ctx.Units.TemporalAsOf(DateTime.Today.AddYears(-1));
 
-            var history = ctx.Units .TemporalAll().Where(emp => emp.UnitId == 2)
+            var history = ctx.Units.TemporalAll().Where(emp => emp.Id == 2)
               .OrderByDescending(emp => EF.Property<DateTime>(emp, "PeriodStart"))
-              .Select(emp => new {
+              .Select(emp => new
+              {
                   Employee = emp,
                   PeriodStart = EF.Property<DateTime>(emp, "PeriodStart"),
                   PeriodEnd = EF.Property<DateTime>(emp, "PeriodEnd")
@@ -88,7 +87,7 @@ namespace Repository.Imp
         public IEnumerable<Unit> Get()
         {
             var x = _dbContext.Units.ToList();
-          return   x;
+            return x;
         }
 
         public IEnumerable<Unit> Get(Func<Group, bool> cond)

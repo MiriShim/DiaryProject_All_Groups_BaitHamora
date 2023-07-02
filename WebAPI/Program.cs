@@ -1,5 +1,4 @@
-//using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
+ï»¿using Microsoft.EntityFrameworkCore;
 using Repository.Imp;
 using Repository.Interfaces;
 using Services;
@@ -42,23 +41,20 @@ public class Program
 
         string csName = Environment.UserName.StartsWith("st") ? "DiaryDatabaseSchool" : "DiaryDatabaseHome";
         
-        string connString = builder.Configuration.GetConnectionString(csName) ?? throw new Exception("ìà ğîöàä îçøåæú çéáåø ú÷éğä");
+        string connString = builder.Configuration.GetConnectionString(csName) ?? throw new Exception("Ã¬Ã  Ã°Ã®Ã¶Ã Ã¤ Ã®Ã§Ã¸Ã¥Ã¦Ãº Ã§Ã©Ã¡Ã¥Ã¸ ÃºÃ·Ã©Ã°Ã¤");
 
-       // var connectionstring = _configuration.GetConnectionString("prattleDatabase");
  
-        connString = "postgres://mirishim:dlbYkcbRlQbpg8DgJRqMiVW5jLNuh5a6@dpg-chp77s67avjb90ia1d10-a.oregon-postgres.render.com/diaryallgroupsdb";
-        connString = @"host=dpg-chp77s67avjb90ia1d10-a.oregon-postg\r\nres.render.com port=5432 dbname=diaryallgroupsdb user=mirishim sslmode=prefer connect_timeout=10";
         connString = @"postgres://mirishim:dlbYkcbRlQbpg8DgJRqMiVW5jLNuh5a6@dpg-chp77s67avjb90ia1d10-a.oregon-postgres.render.com/diaryallgroupsdb";
-      
 
+        //××—×¨×•×–×ª ×”×—×™×‘×•×¨ ×›××©×¨ ×¢×•×‘×“×™× ××•×œ sql-server ××§×•××™
         //builder.Services.AddDbContext<Repository.DbModels.DiaryContext>(op => op.UseSqlServer(connString));
+        //××—×¨×•×–×ª ×”×—×™×‘×•×¨ ×›××©×¨ ×¢×•×‘×“×™× ××•×œ postressql ×‘×¢× ×Ÿ
         builder.Services.AddDbContext<DiaryContext>(op => op.UseNpgsql("name=postgresqlconnectionstring"));
 
-        //builder.Services.AddDbContext<Repository.DbModels.DiaryContext >(options =>
-        //    options.UseSqlServer(builder.Configuration.GetConnectionString("DiaryDatabase"))) ;
-
+        //×§×¨×™××” ×œ×¤×•× ×§×¦×™×” ×‘×©×›×‘×ª ×”- BL ×©××•×¡×™×¤×” ××ª ×”×ª×œ×•×™×•×ª ×©×œ ×©×›×‘×ª bl  ×©×§×©×•×¨×•×ª ×‘×“×¨×š ×›×œ×œ ×œ-dal
         builder.Services.AddBlServices();
        
+        //×”×•×¡×¤×ª ×›×œ ×”×”×¨×©××•×ª
         builder.Services.AddCors(op=>
             op.AddPolicy("myPolicy",
                a =>
@@ -68,7 +64,7 @@ public class Program
                    a.AllowAnyOrigin();
                }));
 
- 
+        //×‘× ×™×™×ª ×”×©×¨×ª ×”×¢×¦×××™
         WebApplication app = builder.Build();
 
         app.UseHttpsRedirection();
@@ -87,51 +83,19 @@ public class Program
                 $"Status Code Page: {statusCodeContext.HttpContext.Response.StatusCode}");
         });
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
-        //app.UseHttpsRedirection()
-        //    .UseAuthentication()
-        //    .UseRequestCulture()
-        //    .UseShabatMiddleware();
         app.UseShabatMiddleware();
-
-        //àéîåú îùúîùéí
-        app.UseAuthorization();
-        //îéôåé ùì 
+       
         app.MapControllers();
 
-        app.Use(middle1method);
-
-        app.Use(async (context, next) =>
-        {
-           if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
-               await context.Response.WriteAsync("The site is inactive on saturday");
-           else
-                // Do work that can write to the Response.
-               await next.Invoke();
-            // Do logging or other work that doesn't write to the Response.
-        });
-
-
         app.UseRouting();
-        //   // Summary:
-        //     Adds a Microsoft.AspNetCore.Routing.EndpointMiddleware middleware to the specified
-        //     Microsoft.AspNetCore.Builder.IApplicationBuilder with the Microsoft.AspNetCore.Routing.EndpointDataSource
-        //     instances built from configured Microsoft.AspNetCore.Routing.IEndpointRouteBuilder.
-        //     The Microsoft.AspNetCore.Routing.EndpointMiddleware will execute the Microsoft.AspNetCore.Http.Endpoint
-        //     associated with the current request.
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllerRoute(
-                name: "blog",
-                pattern: "blog/{year}/{month}/{day}/{slug}",
-                defaults: new { controller = "Blog", action = "Post" });
-        });
+
+               
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
@@ -139,7 +103,6 @@ public class Program
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         });
          
-
         #region middlewares
 
         app.Use(async (context, next) =>
@@ -147,7 +110,6 @@ public class Program
             string?  cultureQuery = context.Request.Query["culture"];
             if (!string.IsNullOrWhiteSpace(cultureQuery))
             {
-               // var s = (CultureInfo.CurrentCulture);
                 var culture = new CultureInfo(cultureQuery);
 
                 CultureInfo.CurrentCulture = culture;
@@ -171,34 +133,26 @@ public class Program
         //});
 
  
-        //áìé ôåğ÷öéú äøçáä
-        //  app.UseShabatMiddleware();//ôåğ÷öéåú äøçáä ùàğçğå éöøğå
+        //Ã¡Ã¬Ã© Ã´Ã¥Ã°Ã·Ã¶Ã©Ãº Ã¤Ã¸Ã§Ã¡Ã¤
+        //  app.UseShabatMiddleware();//Ã´Ã¥Ã°Ã·Ã¶Ã©Ã¥Ãº Ã¤Ã¸Ã§Ã¡Ã¤ Ã¹Ã Ã°Ã§Ã°Ã¥ Ã©Ã¶Ã¸Ã°Ã¥
 
-        //ãåâîà ìäøöä ùì àúø òí úâåáä è÷ñèåàìéú áìáã
+        //Ã£Ã¥Ã¢Ã®Ã  Ã¬Ã¤Ã¸Ã¶Ã¤ Ã¹Ã¬ Ã ÃºÃ¸ Ã²Ã­ ÃºÃ¢Ã¥Ã¡Ã¤ Ã¨Ã·Ã±Ã¨Ã¥Ã Ã¬Ã©Ãº Ã¡Ã¬Ã¡Ã£
         //app.Run(async context =>
         //{
         //    //a single anonymous function is called in response to every HTTP request:
         //    await context.Response.WriteAsync("Our sit is at build. Thank you !");
         //});
         #endregion 
-        app.UseCors("policy");
-        app.Run();
-    }
 
-    private static Task middle1method(HttpContext context, Func<Task> next)
-    {
-        if (DateTime.Now.DayOfWeek == DayOfWeek.Wednesday)
-            return context.Response.WriteAsync("àéï ùéøåú áéåí øáéòé");
-        else
-            return next( );
-        //code for the return way
-         
+        app.UseCors("policy");
+
+        app.Run();
     }
 
     private static async Task middlewareMethod(HttpContext context, Func<Task> next)
     {
         if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
-             await   context.Response.WriteAsync ("ìà ğåúğéí ùéøåú áùáú");
+             await   context.Response.WriteAsync ("Ã¬Ã  Ã°Ã¥ÃºÃ°Ã©Ã­ Ã¹Ã©Ã¸Ã¥Ãº Ã¡Ã¹Ã¡Ãº");
         else
        // next ();
         next?.Invoke ();

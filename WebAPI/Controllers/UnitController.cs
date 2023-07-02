@@ -27,7 +27,6 @@ namespace WebAPI.Controllers
         //public int IEnumerable< UnitDTO> Get()
         public IEnumerable<UnitDTO>  Get()
         {
-            //return 99999;
             return  service.GetAll();
         }
 
@@ -35,6 +34,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            System.Diagnostics.Debugger.Break();
             return $"value from my web api !! {id}";
         }
 
