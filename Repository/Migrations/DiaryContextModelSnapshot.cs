@@ -22,6 +22,21 @@ namespace Repository.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("LessonUnit", b =>
+                {
+                    b.Property<int>("LessonsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UnitsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("LessonsId", "UnitsId");
+
+                    b.HasIndex("UnitsId");
+
+                    b.ToTable("LessonUnit");
+                });
+
             modelBuilder.Entity("Repository.DbModels.Group", b =>
                 {
                     b.Property<int>("Id")
@@ -37,10 +52,9 @@ namespace Repository.Migrations
                     b.Property<int?>("SchoolId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id")
-                        .HasName("PK_dbo.Groups");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "SchoolId" }, "IX_SchoolId");
+                    b.HasIndex("SchoolId");
 
                     b.ToTable("Groups");
                 });
@@ -54,17 +68,15 @@ namespace Repository.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("GroupId")
-                        .HasColumnType("integer")
-                        .HasColumnName("Group_Id");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("LessonDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DateOfLesson");
 
-                    b.HasKey("Id")
-                        .HasName("PK_dbo.Lessons");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "GroupId" }, "IX_Group_Id");
+                    b.HasIndex("GroupId");
 
                     b.ToTable("Lessons");
                 });
@@ -80,17 +92,9 @@ namespace Repository.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("PK_dbo.Schools");
+                    b.HasKey("Id");
 
                     b.ToTable("Schools");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            Name = "Seminar sharansky"
-                        });
                 });
 
             modelBuilder.Entity("Repository.DbModels.StudentExistance", b =>
@@ -110,23 +114,22 @@ namespace Repository.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id")
-                        .HasName("PK_dbo.StudentExistances");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "LessonId" }, "IX_LessonId");
+                    b.HasIndex("LessonId");
 
-                    b.HasIndex(new[] { "StudentId" }, "IX_StudentId");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentExistances");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Unit", b =>
                 {
-                    b.Property<int>("UnitId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UnitId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comments")
                         .HasColumnType("text");
@@ -138,15 +141,11 @@ namespace Repository.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UnitName")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
-                    b.HasKey("UnitId")
-                        .HasName("PK_dbo.Units");
+                    b.HasKey("Id");
 
-                    b.ToTable("Units", (string)null);
-
-                    b.HasAnnotation("SqlServer:IsTemporal", true);
+                    b.ToTable("Units");
                 });
 
             modelBuilder.Entity("Repository.DbModels.User", b =>
@@ -156,6 +155,10 @@ namespace Repository.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -174,27 +177,9 @@ namespace Repository.Migrations
 
                     b.ToTable("Users");
 
-                    b.UseTptMappingStrategy();
-                });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
-            modelBuilder.Entity("UnitLesson", b =>
-                {
-                    b.Property<int>("UnitId")
-                        .HasColumnType("integer")
-                        .HasColumnName("Unit_Id");
-
-                    b.Property<int>("LessonId")
-                        .HasColumnType("integer")
-                        .HasColumnName("Lesson_Id");
-
-                    b.HasKey("UnitId", "LessonId")
-                        .HasName("PK_dbo.UnitLessons");
-
-                    b.HasIndex(new[] { "LessonId" }, "IX_Lesson_Id");
-
-                    b.HasIndex(new[] { "UnitId" }, "IX_Unit_Id");
-
-                    b.ToTable("UnitLessons", (string)null);
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Repository.DbModels.Student", b =>
@@ -206,7 +191,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Students", (string)null);
+                    b.HasDiscriminator().HasValue("Student");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Teacher", b =>
@@ -217,15 +202,29 @@ namespace Repository.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ToTable("Teachers");
+                    b.HasDiscriminator().HasValue("Teacher");
+                });
+
+            modelBuilder.Entity("LessonUnit", b =>
+                {
+                    b.HasOne("Repository.DbModels.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repository.DbModels.Unit", null)
+                        .WithMany()
+                        .HasForeignKey("UnitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Repository.DbModels.Group", b =>
                 {
                     b.HasOne("Repository.DbModels.School", "School")
                         .WithMany("Groups")
-                        .HasForeignKey("SchoolId")
-                        .HasConstraintName("FK_dbo.Groups_dbo.Schools_SchoolId");
+                        .HasForeignKey("SchoolId");
 
                     b.Navigation("School");
                 });
@@ -234,8 +233,7 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Repository.DbModels.Group", "Group")
                         .WithMany("Lessons")
-                        .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_dbo.Lessons_dbo.Groups_Group_Id");
+                        .HasForeignKey("GroupId");
 
                     b.Navigation("Group");
                 });
@@ -246,36 +244,17 @@ namespace Repository.Migrations
                         .WithMany("StudentExistances")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_dbo.StudentExistances_dbo.Lessons_LessonId");
+                        .IsRequired();
 
                     b.HasOne("Repository.DbModels.Student", "Student")
                         .WithMany("StudentExistances")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_dbo.StudentExistances_dbo.Students_StudentId");
+                        .IsRequired();
 
                     b.Navigation("Lesson");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("UnitLesson", b =>
-                {
-                    b.HasOne("Repository.DbModels.Lesson", null)
-                        .WithMany()
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_dbo.UnitLessons_dbo.Lessons_Lesson_Id");
-
-                    b.HasOne("Repository.DbModels.Unit", null)
-                        .WithMany()
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_dbo.UnitLessons_dbo.Units_Unit_Id");
                 });
 
             modelBuilder.Entity("Repository.DbModels.Student", b =>
@@ -286,22 +265,7 @@ namespace Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Repository.DbModels.User", null)
-                        .WithOne()
-                        .HasForeignKey("Repository.DbModels.Student", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("Repository.DbModels.Teacher", b =>
-                {
-                    b.HasOne("Repository.DbModels.User", null)
-                        .WithOne()
-                        .HasForeignKey("Repository.DbModels.Teacher", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Repository.DbModels.Group", b =>
