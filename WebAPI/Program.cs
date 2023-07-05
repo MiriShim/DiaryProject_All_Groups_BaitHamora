@@ -10,6 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace WebAPI;
 
+
 public class Program
 {
     public static void Main(string[] args)
